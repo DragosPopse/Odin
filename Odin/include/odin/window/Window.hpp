@@ -4,6 +4,7 @@
 #include <odin/Config.hpp>
 #include <odin/window/Event.hpp>
 #include <memory>
+#include <odin/window/WindowInfo.hpp>
 
 #if defined(ODIN_PLATFORM_WINDOWS)
 #include <odin/window/win32/Win32Window.hpp>
@@ -19,15 +20,17 @@ namespace odin
 	{
 
 	public:
-		ODIN_API Window(uint32_t width, uint32_t height);
-		ODIN_API Window() = default;
-		ODIN_API ~Window() = default;
+		Window(const WindowInfo& info);
+		Window() = default;
+		~Window() = default;
 
-		bool ODIN_API pollEvent(Event& ev);
+		void create(const WindowInfo& info);
 
-		bool ODIN_API isOpen() const;
+		bool pollEvent(Event& ev);
 
-		void ODIN_API close();
+		bool isOpen() const;
+
+		void close();
 
 	private:
 		std::unique_ptr<CurrentSystemWindow> m_systemWindow;

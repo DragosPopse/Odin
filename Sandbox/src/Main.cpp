@@ -1,26 +1,20 @@
 #include <iostream>
-#include <odin/window/Window.hpp>
+#include <odin/core/Entry.hpp>
+#include <odin/core/App.hpp>
 
-int main()
+
+class Application :
+	public odin::App
 {
-	
-	odin::Window window(800, 600);
-
-
-	while (window.isOpen())
+public:
+	Application()
 	{
-		odin::Event ev;
-
-		while (window.pollEvent(ev))
-		{
-			switch (ev.type)
-			{
-			case odin::Event::Type::WindowClosed:
-				window.close();
-				break;
-			}
-		}
+		std::cout << "ENTRY\n";
 	}
+};
 
-	return 0;
+
+odin::App* odin::CreateApp()
+{
+	return new Application();
 }

@@ -7,7 +7,6 @@
 
 namespace odin
 {
-	
 	template <typename Derived>
 	class SystemWindow
 	{
@@ -28,6 +27,7 @@ namespace odin
 			}
 			ev = m_eventQueue.front();
 			m_eventQueue.pop();
+			return true;
 		}
 
 		WindowHandle getHandle() const

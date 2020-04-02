@@ -3,9 +3,14 @@
 
 namespace odin
 {
-	Window::Window(uint32_t width, uint32_t height)
+	Window::Window(const WindowInfo& info)
 	{
-		m_systemWindow.reset(new CurrentSystemWindow(width, height));
+		m_systemWindow.reset(new CurrentSystemWindow(info));
+	}
+
+	void Window::create(const WindowInfo& info)
+	{
+		m_systemWindow.reset(new CurrentSystemWindow(info));
 	}
 
 	bool Window::pollEvent(Event& ev)

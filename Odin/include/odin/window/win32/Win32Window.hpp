@@ -4,6 +4,7 @@
 #include <odin/Config.hpp>
 #include <odin/window/Event.hpp>
 #include <odin/window/SystemWindow.hpp>
+#include <odin/window/WindowInfo.hpp>
 
 #include <Windows.h>
 
@@ -20,10 +21,10 @@ namespace odin
 		static const wchar_t* s_className;
 
 	public:
-		ODIN_API Win32Window(uint32_t width, uint32_t height);
-		ODIN_API ~Win32Window();
+		Win32Window(const WindowInfo& info);
+		~Win32Window();
 
-		ODIN_API WindowHandle getHandle() const;
+		WindowHandle getHandle() const;
 
 		void processEvents();
 		

@@ -46,7 +46,7 @@ workspace "Odin"
 
     project "Odin"
         location "Odin"
-        kind "SharedLib"
+        kind "StaticLib"
 
         targetdir ("%{prj.name}/bin/" .. odinOutputDir .. "/%{prj.name}")
         objdir ("%{prj.name}/bin-int/" .. odinOutputDir .. "/%{prj.name}")
@@ -73,9 +73,6 @@ workspace "Odin"
             cppdialect "C++17"
             staticruntime "On"
             systemversion "latest"
-            defines {
-                "ODIN_BUILD_DLL"
-            }
 
         filter {"configurations:Debug"}
             symbols "On"

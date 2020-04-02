@@ -49,7 +49,7 @@ namespace odin
 	bool Win32Window::s_registerClass = true;
 	const wchar_t* Win32Window::s_className = L"Odin_DefaultWindow";
 
-	Win32Window::Win32Window(uint32_t width, uint32_t height) :
+	Win32Window::Win32Window(const WindowInfo& info) :
 		m_window(NULL)
 	{	
 		//First Window
@@ -72,7 +72,7 @@ namespace odin
 			L"Test Window",
 			WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, CW_USEDEFAULT,
-			width, height,
+			info.width, info.height,
 			NULL, NULL, GetModuleHandleW(0), this);
 
 		ShowWindow(m_window, SW_SHOW);
