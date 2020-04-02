@@ -7,32 +7,36 @@
 
 namespace odin
 {
+	class Window;
+
 	template <typename Derived>
 	class SystemWindow
 	{
 	public:
-		SystemWindow() = default;
+		SystemWindow(Window* apiWindow) :
+			m_apiWindow(apiWindow)
+		{
+		}
 		~SystemWindow() = default;
 		
-		bool pollEvent(Event& ev)
+		void processEvents()
 		{
-			if (m_eventQueue.empty())
-			{
-				processEvents();
-			}
-
-			if (m_eventQueue.empty())
-			{
-				return false;
-			}
-			ev = m_eventQueue.front();
-			m_eventQueue.pop();
-			return true;
+			impl().processEvents();
 		}
 
 		WindowHandle getHandle() const
 		{
-			return static_cast<const Derived&>(*this).getHandle();
+			return impl().getHandle();
+		}
+
+		void setWindowClosedCallback(EventCallbackFn callback)
+		{
+			m_onWindowClosedEvent = callback;
+		}
+
+		void setKeyPressedCallback(EventCallbackFn callback)
+		{
+			m_onKeyPressedEvent = callback;
 		}
 
 	protected:
@@ -41,13 +45,21 @@ namespace odin
 			m_eventQueue.push(ev);
 		}
 
-		void processEvents()
-		{
-			static_cast<Derived&>(*this).processEvents();
-		}
+		Window* m_apiWindow = nullptr;
+		EventCallbackFn m_onWindowClosedEvent = &DefaultEventCallback;
+		EventCallbackFn m_onKeyPressedEvent = &DefaultEventCallback;
+		EventCallbackFn m_onKeyReleasedEvent = &DefaultEventCallback;
 
 	private:
-		std::queue<Event> m_eventQueue;
+		Derived& impl()
+		{
+			return static_cast<Derived&>(*this);
+		}
+
+		const Derived& impl() const
+		{
+			return static_cast<const Derived&>(*this);
+		}
 	};
 }
 

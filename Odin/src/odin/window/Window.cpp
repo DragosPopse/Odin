@@ -5,21 +5,21 @@ namespace odin
 {
 	Window::Window(const WindowInfo& info)
 	{
-		m_systemWindow.reset(new CurrentSystemWindow(info));
+		create(info);
 	}
 
 	void Window::create(const WindowInfo& info)
 	{
-		m_systemWindow.reset(new CurrentSystemWindow(info));
+		m_systemWindow.reset(new CurrentSystemWindow(this, info));
+		m_systemWindow->setWindowClosedCallback(&defaultOnWindowClosed);
 	}
 
-	bool Window::pollEvent(Event& ev)
+	void Window::processEvents()
 	{
 		if (m_systemWindow != nullptr)
 		{
-			return m_systemWindow->pollEvent(ev);
+			m_systemWindow->processEvents();
 		}
-		return false;
 	}
 
 	bool Window::isOpen() const
@@ -30,5 +30,10 @@ namespace odin
 	void Window::close()
 	{
 		m_systemWindow.reset();
+	}
+
+	void Window::defaultOnWindowClosed(const Event& ev)
+	{
+		ev.window->close();
 	}
 }

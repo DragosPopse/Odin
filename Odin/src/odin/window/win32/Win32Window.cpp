@@ -32,11 +32,12 @@ namespace odin
 		if (window)
 		{
 			Event ev;
+			ev.window = window->m_apiWindow;
 			switch (message)
 			{
 			case WM_CLOSE:
 				ev.type = Event::Type::WindowClosed;
-				window->pushEvent(ev);
+				window->m_onWindowClosedEvent(ev);
 				return 0;
 			}
 		}
@@ -49,7 +50,8 @@ namespace odin
 	bool Win32Window::s_registerClass = true;
 	const wchar_t* Win32Window::s_className = L"Odin_DefaultWindow";
 
-	Win32Window::Win32Window(const WindowInfo& info) :
+	Win32Window::Win32Window(Window* apiWindow, const WindowInfo& info) :
+		SystemWindow(apiWindow),
 		m_window(NULL)
 	{	
 		//First Window

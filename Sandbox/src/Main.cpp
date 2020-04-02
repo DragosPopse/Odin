@@ -9,7 +9,11 @@ class Application :
 public:
 	Application()
 	{
-		std::cout << "ENTRY\n";
+		odin::AppInfo app;
+		app.window.width = 600;
+		app.window.height = 600;
+		app.window.title = L"Odin Testone";
+		create(app);
 	}
 };
 

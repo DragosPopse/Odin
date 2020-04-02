@@ -21,7 +21,7 @@ namespace odin
 		static const wchar_t* s_className;
 
 	public:
-		Win32Window(const WindowInfo& info);
+		Win32Window(Window* apiWindow, const WindowInfo& info);
 		~Win32Window();
 
 		WindowHandle getHandle() const;

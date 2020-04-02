@@ -5,10 +5,18 @@
 
 namespace odin
 {
+	class Window;
+
 	struct KeyPressedEvent
 	{
 
 	};
+
+	struct KeyReleasedEvent
+	{
+
+	};
+
 
 	class Event
 	{	
@@ -22,11 +30,20 @@ namespace odin
 
 		union
 		{
-
+			KeyPressedEvent keyPressed;
+			KeyReleasedEvent keyReleased;
 		};
 
+		Window* window;
 		Type type;
 	};
+
+	using EventCallbackFn = void(*)(const Event& ev);
+	
+	inline void DefaultEventCallback(const Event& ev)
+	{
+		//Empty callback
+	}
 }
 
 #endif

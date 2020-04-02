@@ -26,13 +26,15 @@ namespace odin
 
 		void create(const WindowInfo& info);
 
-		bool pollEvent(Event& ev);
+		void processEvents();
 
 		bool isOpen() const;
 
 		void close();
 
 	private:
+		static void defaultOnWindowClosed(const Event& ev);
+
 		std::unique_ptr<CurrentSystemWindow> m_systemWindow;
 	};
 }
