@@ -20,7 +20,7 @@ namespace odin
 				m_layerManager.dispatchEvent(ev);
 			});
 
-		m_layerManager.push(std::move(info.entryLayer));
+		m_layerManager.push(info.entryLayer);
 		m_layerManager.applyChanges();
 	}
 

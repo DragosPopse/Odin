@@ -3,14 +3,16 @@
 #include <odin/core/App.hpp>
 
 
-class EntryLayer : public odin::Layer
+class EntryLayer : 
+	public odin::Layer
 {
 public:
 	EntryLayer()
 	{
 		registerEvents(
 			odin::Event::Type::KeyPressed, 
-			odin::Event::Type::WindowClosed);
+			odin::Event::Type::WindowClosed
+		);
 	}
 
 	bool onEvent(const odin::Event& ev) override
@@ -25,6 +27,8 @@ public:
 			std::cout << odin::Keyboard::interpretKeyCode(ev.key.code) << '\n';
 			return false;
 		}
+
+		return true;
 	}
 };
 
