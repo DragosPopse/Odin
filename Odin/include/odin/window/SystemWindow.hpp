@@ -29,15 +29,12 @@ namespace odin
 			return impl().getHandle();
 		}
 
-		void setWindowClosedCallback(EventCallbackFn callback)
+		void setEventCallback(EventCallbackFn callback)
 		{
-			m_onWindowClosedEvent = callback;
+			m_onEventCallback = callback;
 		}
 
-		void setKeyPressedCallback(EventCallbackFn callback)
-		{
-			m_onKeyPressedEvent = callback;
-		}
+
 
 	protected:
 		void pushEvent(const odin::Event& ev)
@@ -46,11 +43,11 @@ namespace odin
 		}
 
 		Window* m_apiWindow = nullptr;
-		EventCallbackFn m_onWindowClosedEvent = &DefaultEventCallback;
-		EventCallbackFn m_onKeyPressedEvent = &DefaultEventCallback;
-		EventCallbackFn m_onKeyReleasedEvent = &DefaultEventCallback;
+		EventCallbackFn m_onEventCallback;
 
 	private:
+		friend class Window;
+
 		Derived& impl()
 		{
 			return static_cast<Derived&>(*this);

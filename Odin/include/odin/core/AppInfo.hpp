@@ -3,12 +3,16 @@
 
 #include <odin/Config.hpp>
 #include <odin/window/WindowInfo.hpp>
+#include <memory>
 
 namespace odin
 {
+	class Layer;
+
 	struct AppInfo
 	{
 		WindowInfo window;
+		std::shared_ptr<Layer> entryLayer;
 	};
 }
 

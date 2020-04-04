@@ -2,10 +2,40 @@
 #include <odin/window/Event.hpp>
 #include <iostream>
 
+namespace
+{
+	///credits https://stackoverflow.com/questions/15966642/how-do-you-tell-lshift-apart-from-rshift-in-wm-keydown-events
+	WPARAM MapLeftRightKeys(WPARAM vk, LPARAM lParam)
+	{
+		WPARAM new_vk = vk;
+		UINT scancode = (lParam & 0x00ff0000) >> 16;
+		int extended = (lParam & 0x01000000) != 0;
+
+		switch (vk) {
+		case VK_SHIFT:
+			new_vk = MapVirtualKeyW(scancode, MAPVK_VSC_TO_VK_EX);
+			break;
+		case VK_CONTROL:
+			new_vk = extended ? VK_RCONTROL : VK_LCONTROL;
+			break;
+		case VK_MENU:
+			new_vk = extended ? VK_RMENU : VK_LMENU;
+			break;
+		default:
+			// not a key we map from generic to left/right specialized
+			//  just return it.
+			new_vk = vk;
+			break;
+		}
+
+		return new_vk;
+	}
+
+}
 
 namespace odin
 {
-	
+
 	LRESULT CALLBACK Win32Window::WindowProc(
 		_In_ HWND handle,
 		_In_ UINT message,
@@ -37,7 +67,15 @@ namespace odin
 			{
 			case WM_CLOSE:
 				ev.type = Event::Type::WindowClosed;
-				window->m_onWindowClosedEvent(ev);
+				window->m_onEventCallback(ev);
+				return 0;
+
+			case WM_SYSKEYDOWN:
+			case WM_KEYDOWN:
+				wparam = MapLeftRightKeys(wparam, lparam);
+				ev.type = Event::Type::KeyPressed;
+				ev.key.code = static_cast<Keyboard::Key>(wparam);
+				window->m_onEventCallback(ev);
 				return 0;
 			}
 		}
@@ -71,7 +109,7 @@ namespace odin
 		m_window = CreateWindowExW(
 			0,
 			s_className,
-			L"Test Window",
+			info.title.c_str(),
 			WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			info.width, info.height,

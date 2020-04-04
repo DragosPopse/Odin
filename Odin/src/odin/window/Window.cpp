@@ -11,7 +11,6 @@ namespace odin
 	void Window::create(const WindowInfo& info)
 	{
 		m_systemWindow.reset(new CurrentSystemWindow(this, info));
-		m_systemWindow->setWindowClosedCallback(&defaultOnWindowClosed);
 	}
 
 	void Window::processEvents()

@@ -9,5 +9,6 @@
 	#error "Platform not supported"
 #endif
 
+#define ODIN_BIT(x) (1 << x)
 
 #endif

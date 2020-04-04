@@ -32,6 +32,11 @@ namespace odin
 
 		void close();
 
+		void setEventCallback(EventCallbackFn callback)
+		{
+			m_systemWindow->setEventCallback(callback);
+		}
+
 	private:
 		static void defaultOnWindowClosed(const Event& ev);
 
