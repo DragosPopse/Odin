@@ -10,7 +10,8 @@ public:
 	EntryLayer()
 	{
 		registerEvents(
-			odin::Event::Type::KeyPressed, 
+			odin::Event::Type::KeyPressed,
+			odin::Event::Type::KeyReleased,
 			odin::Event::Type::WindowClosed
 		);
 	}

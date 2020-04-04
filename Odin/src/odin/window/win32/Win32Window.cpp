@@ -77,6 +77,14 @@ namespace odin
 				ev.key.code = static_cast<Keyboard::Key>(wparam);
 				window->m_onEventCallback(ev);
 				return 0;
+
+			case WM_SYSKEYUP:
+			case WM_KEYUP:
+				wparam = MapLeftRightKeys(wparam, lparam);
+				ev.type = Event::Type::KeyReleased;
+				ev.key.code = static_cast<Keyboard::Key>(wparam);
+				window->m_onEventCallback(ev);
+				return 0;
 			}
 		}
 
