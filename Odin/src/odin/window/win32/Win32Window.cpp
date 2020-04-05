@@ -73,15 +73,18 @@ namespace odin
 			case WM_SYSKEYDOWN:
 			case WM_KEYDOWN:
 				wparam = MapLeftRightKeys(wparam, lparam);
-				ev.type = Event::Type::KeyPressed;
+
+				//Get bit 30 out of lparam to determine whatever the key was held down before the event
+				ev.type = ((static_cast<uint32_t>(lparam) & (1 << 30)) >> 30) ? Event::Type::KeyRepeated : Event::Type::KeyPressed;
+
 				ev.key.code = static_cast<Keyboard::Key>(wparam);
 				window->m_onEventCallback(ev);
 				return 0;
 
 			case WM_SYSKEYUP:
 			case WM_KEYUP:
-				wparam = MapLeftRightKeys(wparam, lparam);
 				ev.type = Event::Type::KeyReleased;
+				wparam = MapLeftRightKeys(wparam, lparam);
 				ev.key.code = static_cast<Keyboard::Key>(wparam);
 				window->m_onEventCallback(ev);
 				return 0;

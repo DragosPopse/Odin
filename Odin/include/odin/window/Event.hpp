@@ -13,10 +13,6 @@ namespace odin
 	struct KeyEvent
 	{
 		Keyboard::Key code;
-		bool alt;
-		bool ctrl;
-		bool shift;
-		bool system;
 	};
 	
 	struct TextEvent
@@ -32,7 +28,8 @@ namespace odin
 		{
 			KeyPressed = ODIN_BIT(0),
 			KeyReleased = ODIN_BIT(1),
-			WindowClosed = ODIN_BIT(2)
+			WindowClosed = ODIN_BIT(2),
+			KeyRepeated = ODIN_BIT(3)
 		};
 
 

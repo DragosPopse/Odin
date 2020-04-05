@@ -10,9 +10,10 @@ public:
 	EntryLayer()
 	{
 		registerEvents(
-			odin::Event::Type::KeyPressed,
 			odin::Event::Type::KeyReleased,
-			odin::Event::Type::WindowClosed
+			odin::Event::Type::WindowClosed,
+			odin::Event::Type::KeyPressed,
+			odin::Event::Type::KeyRepeated
 		);
 	}
 
@@ -21,11 +22,11 @@ public:
 		switch (ev.type)
 		{
 		case odin::Event::Type::WindowClosed:
-			requestClear();
 			return false;
 
+		case odin::Event::Type::KeyRepeated:
 		case odin::Event::Type::KeyPressed:
-			std::cout << odin::Keyboard::interpretKeyCode(ev.key.code) << '\n';
+			std::cout << "Pressed" << '\n';
 			return false;
 		}
 
@@ -47,8 +48,6 @@ public:
 		app.entryLayer.reset(new EntryLayer());
 		create(app);
 	}
-
-	
 };
 
 
