@@ -2,6 +2,7 @@
 #define ODIN_CONFIG_HPP
 
 #include <cstdint>
+#include <type_traits>
 
 #if defined(_WIN64)
 	#define ODIN_PLATFORM_WINDOWS

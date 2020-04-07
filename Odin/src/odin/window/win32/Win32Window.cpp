@@ -151,6 +151,7 @@ namespace odin
 			windowClass.lpfnWndProc = &WindowProc;
 			windowClass.style = CS_OWNDC;
 			windowClass.lpszClassName = s_className;
+			windowClass.hCursor = LoadCursorW(NULL, IDC_ARROW);
 			RegisterClassExW(&windowClass);
 			s_registerClass = false;
 		}

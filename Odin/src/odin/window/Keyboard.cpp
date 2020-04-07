@@ -129,6 +129,7 @@ namespace odin
 			ODIN_KC_CASE(Key::Tilde);
 			ODIN_KC_CASE(Key::Equal);
 			ODIN_KC_CASE(Key::Hyphen);
+			ODIN_KC_CASE(Key::Undefined);
 		}
 		return "Undefined " + std::to_string((int)code);
 	}
