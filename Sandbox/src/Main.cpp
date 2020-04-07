@@ -10,10 +10,7 @@ public:
 	EntryLayer()
 	{
 		registerEvents(
-			odin::Event::Type::KeyReleased,
-			odin::Event::Type::WindowClosed,
-			odin::Event::Type::KeyPressed,
-			odin::Event::Type::KeyRepeated
+			odin::Event::Type::All
 		);
 	}
 
@@ -22,11 +19,16 @@ public:
 		switch (ev.type)
 		{
 		case odin::Event::Type::WindowClosed:
+			requestClear();
 			return false;
 
 		case odin::Event::Type::KeyRepeated:
 		case odin::Event::Type::KeyPressed:
 			std::cout << "Pressed" << '\n';
+			return false;
+
+		case odin::Event::Type::WindowResized:
+			std::cout << "Resize: " << ev.size.width << ' ' << ev.size.height << '\n';
 			return false;
 		}
 
@@ -45,6 +47,7 @@ public:
 		app.window.width = 600;
 		app.window.height = 600;
 		app.window.title = L"Odin Testone";
+		app.window.style = odin::mask(odin::Window::Style::Overlapped);
 		app.entryLayer.reset(new EntryLayer());
 		create(app);
 	}

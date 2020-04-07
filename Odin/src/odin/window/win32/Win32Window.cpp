@@ -70,12 +70,51 @@ namespace odin
 				window->m_onEventCallback(ev);
 				return 0;
 
+			case WM_ENTERSIZEMOVE:
+				window->m_resizing = true;
+				return 0;
+
+			case WM_EXITSIZEMOVE:
+				window->m_resizing = false;
+				if (window->m_lastSize != window->getSize())
+				{
+					window->m_lastSize = window->getSize();
+					ev.type = Event::Type::WindowResized;
+					ev.size.width = window->m_lastSize.x;
+					ev.size.height = window->m_lastSize.y;
+					window->m_onEventCallback(ev);
+				}
+				return 0;
+
+			case WM_SIZE:
+				if (wparam != SIZE_MINIMIZED && !window->m_resizing && window->m_lastSize != window->getSize())
+				{
+					window->m_lastSize = window->getSize();
+					ev.type = Event::Type::WindowResized;
+					ev.size.width = window->m_lastSize.x;
+					ev.size.height = window->m_lastSize.y;
+					window->m_onEventCallback(ev);
+				}
+				return 0;
+
+			case WM_KILLFOCUS:
+				ev.type = Event::Type::LostFocus;
+				window->m_onEventCallback(ev);
+				return 0;
+
+			case WM_SETFOCUS:
+				ev.type = Event::Type::GainedFocus;
+				window->m_onEventCallback(ev);
+				return 0;
+
 			case WM_SYSKEYDOWN:
 			case WM_KEYDOWN:
 				wparam = MapLeftRightKeys(wparam, lparam);
 
 				//Get bit 30 out of lparam to determine whatever the key was held down before the event
-				ev.type = ((static_cast<uint32_t>(lparam) & (1 << 30)) >> 30) ? Event::Type::KeyRepeated : Event::Type::KeyPressed;
+				ev.type = ((static_cast<uint32_t>(lparam) & (1 << 30)) >> 30) ? 
+					Event::Type::KeyRepeated : 
+					Event::Type::KeyPressed;
 
 				ev.key.code = static_cast<Keyboard::Key>(wparam);
 				window->m_onEventCallback(ev);
@@ -99,9 +138,8 @@ namespace odin
 	bool Win32Window::s_registerClass = true;
 	const wchar_t* Win32Window::s_className = L"Odin_DefaultWindow";
 
-	Win32Window::Win32Window(Window* apiWindow, const WindowInfo& info) :
-		SystemWindow(apiWindow),
-		m_window(NULL)
+	Win32Window::Win32Window(Window* apiWindow, EventCallbackFn eventFn, const WindowInfo& info) :
+		SystemWindow(apiWindow, eventFn)
 	{	
 		//First Window
 		//Register the window class
@@ -121,7 +159,7 @@ namespace odin
 			0,
 			s_className,
 			info.title.c_str(),
-			WS_OVERLAPPEDWINDOW,
+			info.style,
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			info.width, info.height,
 			NULL, NULL, GetModuleHandleW(0), this);
@@ -137,6 +175,13 @@ namespace odin
 	WindowHandle Win32Window::getHandle() const
 	{
 		return m_window;
+	}
+
+	Vector2u Win32Window::getSize() const
+	{
+		RECT rect;
+		GetClientRect(m_window, &rect);
+		return { (uint32_t)rect.right - (uint32_t)rect.left, (uint32_t)rect.bottom - (uint32_t)rect.top };
 	}
 
 	void Win32Window::processEvents()

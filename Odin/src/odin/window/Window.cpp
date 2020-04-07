@@ -10,7 +10,7 @@ namespace odin
 
 	void Window::create(const WindowInfo& info)
 	{
-		m_systemWindow.reset(new CurrentSystemWindow(this, info));
+		m_systemWindow.reset(new CurrentSystemWindow(this, m_eventCallback, info));
 	}
 
 	void Window::processEvents()

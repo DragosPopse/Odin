@@ -25,7 +25,7 @@ namespace odin
 		template <typename... Args>
 		void registerEvents(Args... args)
 		{
-			m_eventMask = (static_cast<std::underlying_type_t<Args>>(args) | ...);
+			m_eventMask = mask(args...);
 		}
 
 		void requestPush(Layer::Ptr layer);  

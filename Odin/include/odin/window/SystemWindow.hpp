@@ -4,6 +4,7 @@
 #include <queue>
 #include <odin/window/Event.hpp>
 #include <odin/window/WindowHandle.hpp>
+#include <odin/math/Vector2.hpp>
 
 namespace odin
 {
@@ -13,8 +14,9 @@ namespace odin
 	class SystemWindow
 	{
 	public:
-		SystemWindow(Window* apiWindow) :
-			m_apiWindow(apiWindow)
+		SystemWindow(Window* apiWindow, EventCallbackFn eventCallback) :
+			m_apiWindow(apiWindow),
+			m_onEventCallback(eventCallback)
 		{
 		}
 		~SystemWindow() = default;
@@ -28,19 +30,13 @@ namespace odin
 		{
 			return impl().getHandle();
 		}
-
-		void setEventCallback(EventCallbackFn callback)
+		
+		Vector2u getSize() const
 		{
-			m_onEventCallback = callback;
+			return impl().getSize();
 		}
-
-
 
 	protected:
-		void pushEvent(const odin::Event& ev)
-		{
-			m_eventQueue.push(ev);
-		}
 
 		Window* m_apiWindow = nullptr;
 		EventCallbackFn m_onEventCallback;

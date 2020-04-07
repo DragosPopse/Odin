@@ -18,8 +18,20 @@ namespace odin
 {
 	class Window
 	{
-
 	public:
+#if defined(ODIN_PLATFORM_WINDOWS)
+		enum class Style
+		{
+			None = WS_OVERLAPPED,
+			Overlapped = WS_OVERLAPPEDWINDOW,
+			CloseButton = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
+			Resize = WS_OVERLAPPED | WS_CAPTION | WS_THICKFRAME,
+			MaximizeButton = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX,
+			MinimizeButton = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+		};
+#endif
+		
+
 		Window(const WindowInfo& info);
 		Window() = default;
 		~Window() = default;
@@ -34,13 +46,14 @@ namespace odin
 
 		void setEventCallback(EventCallbackFn callback)
 		{
-			m_systemWindow->setEventCallback(callback);
+			m_eventCallback = callback;
 		}
 
 	private:
 		static void defaultOnWindowClosed(const Event& ev);
 
 		std::unique_ptr<CurrentSystemWindow> m_systemWindow;
+		EventCallbackFn m_eventCallback;
 	};
 }
 

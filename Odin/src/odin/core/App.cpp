@@ -13,12 +13,12 @@ namespace odin
 
 	void App::create(const AppInfo& info)
 	{
-		m_window.create(info.window);
 		m_window.setEventCallback(
 			[this](const Event& ev)
 			{
 				m_layerManager.dispatchEvent(ev);
 			});
+		m_window.create(info.window);
 
 		m_layerManager.push(info.entryLayer);
 		m_layerManager.applyChanges();

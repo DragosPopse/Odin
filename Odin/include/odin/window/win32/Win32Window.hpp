@@ -5,6 +5,7 @@
 #include <odin/window/Event.hpp>
 #include <odin/window/SystemWindow.hpp>
 #include <odin/window/WindowInfo.hpp>
+#include <odin/math/Vector2.hpp>
 
 #include <Windows.h>
 
@@ -21,10 +22,11 @@ namespace odin
 		static const wchar_t* s_className;
 
 	public:
-		Win32Window(Window* apiWindow, const WindowInfo& info);
+		Win32Window(Window* apiWindow, EventCallbackFn eventFn, const WindowInfo& info);
 		~Win32Window();
 
 		WindowHandle getHandle() const;
+		Vector2u getSize() const;
 
 		void processEvents();
 		
@@ -37,7 +39,9 @@ namespace odin
 		);
 
 	private:
-		HWND m_window;
+		HWND m_window = 0;
+		bool m_resizing = false;
+		Vector2u m_lastSize = Vector2u(0u, 0u);
 	};
 
 }
