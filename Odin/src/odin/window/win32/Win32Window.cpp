@@ -178,7 +178,7 @@ namespace odin
 		return m_window;
 	}
 
-	Vector2u Win32Window::getSize() const
+	Vec2u Win32Window::getSize() const
 	{
 		RECT rect;
 		GetClientRect(m_window, &rect);

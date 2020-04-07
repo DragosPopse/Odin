@@ -5,7 +5,7 @@
 #include <odin/window/Event.hpp>
 #include <odin/window/SystemWindow.hpp>
 #include <odin/window/WindowInfo.hpp>
-#include <odin/math/Vector2.hpp>
+#include <odin/math/Vec2.hpp>
 
 #include <Windows.h>
 
@@ -26,7 +26,7 @@ namespace odin
 		~Win32Window();
 
 		WindowHandle getHandle() const;
-		Vector2u getSize() const;
+		Vec2u getSize() const;
 
 		void processEvents();
 		
@@ -41,7 +41,7 @@ namespace odin
 	private:
 		HWND m_window = 0;
 		bool m_resizing = false;
-		Vector2u m_lastSize = Vector2u(0u, 0u);
+		Vec2u m_lastSize = Vec2u(0u, 0u);
 	};
 
 }

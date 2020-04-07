@@ -11,6 +11,12 @@
 	#error "Platform not supported"
 #endif
 
+#if defined(ODIN_PLATFORM_WINDOWS)
+	#define ODIN_MAIN_SIGNATURE int WINAPI ::WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+#else
+	#define ODIN_MAIN_SIGNATURE int ::main(int, char**)
+#endif
+
 #define ODIN_BIT(x) (1 << x)
 
 namespace odin

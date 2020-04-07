@@ -4,7 +4,7 @@
 #include <queue>
 #include <odin/window/Event.hpp>
 #include <odin/window/WindowHandle.hpp>
-#include <odin/math/Vector2.hpp>
+#include <odin/math/Vec2.hpp>
 
 namespace odin
 {
@@ -31,7 +31,7 @@ namespace odin
 			return impl().getHandle();
 		}
 		
-		Vector2u getSize() const
+		Vec2u getSize() const
 		{
 			return impl().getSize();
 		}

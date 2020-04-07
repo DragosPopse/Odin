@@ -24,7 +24,7 @@ namespace odin
 		void Run();
 		
 	private:
-		friend int ::main(int argc, char** argv);
+		friend ODIN_MAIN_SIGNATURE;
 
 		static App* s_instance;
 
