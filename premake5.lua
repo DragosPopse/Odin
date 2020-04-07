@@ -8,22 +8,29 @@ workspace "Odin"
     language "C++"
     cppdialect "C++17"
     architecture "x86_64"
+    staticruntime "on"
+    systemversion "latest"
     configurations {
         "Debug", 
         "Release"
     }
 
+
     filter {"system:windows"}
         links {
             "opengl32"
         }
-        staticruntime "On"
-        systemversion "latest"
+
+    filter {"system:linux"}
+        toolset "gcc"
+        links {
+            "GL",
+            "X11"
+        }
 
     project "GLAD"
         kind "StaticLib"
         language "C"
-        staticruntime "on"
         location "external/GLAD"
 
         targetdir ("external/GLAD/bin/" .. odinOutputDir .. "/%{prj.name}")
@@ -92,7 +99,7 @@ workspace "Odin"
         
     project "Sandbox"
         location "Sandbox"
-        kind "ConsoleApp"
+        kind "WindowedApp"
 
         targetdir ("%{prj.name}/bin/" .. odinOutputDir .. "/%{prj.name}")
         objdir ("%{prj.name}/bin-int/" .. odinOutputDir .. "/%{prj.name}")
