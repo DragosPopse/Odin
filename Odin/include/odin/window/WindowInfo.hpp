@@ -12,10 +12,12 @@ namespace odin
 {
 	struct WindowInfo
 	{
-		uint32_t width;
-		uint32_t height;
-		std::wstring title;
-		uint32_t style;
+		uint32_t width = 0;
+		uint32_t height = 0;
+		std::wstring title = L"Odin Application";
+		uint32_t style = 0;
+
+		constexpr WindowInfo() = default;
 	};
 }
 

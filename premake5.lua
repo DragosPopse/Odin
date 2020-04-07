@@ -47,6 +47,8 @@ workspace "Odin"
     project "Odin"
         location "Odin"
         kind "StaticLib"
+        
+        warnings "Extra"
 
         targetdir ("%{prj.name}/bin/" .. odinOutputDir .. "/%{prj.name}")
         objdir ("%{prj.name}/bin-int/" .. odinOutputDir .. "/%{prj.name}")

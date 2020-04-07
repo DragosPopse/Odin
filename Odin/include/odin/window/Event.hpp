@@ -52,7 +52,7 @@ namespace odin
 
 	using EventCallbackFn = std::function<void(const Event& ev)>;
 	
-	inline void DefaultEventCallback(const Event& ev)
+	inline void DefaultEventCallback(const Event&)
 	{
 		//Empty callback
 	}

@@ -3,6 +3,8 @@
 
 int main(int argc, char** argv)
 {
+	(void)argc;
+	(void)argv;
 	auto* app = odin::CreateApp();
 	app->Run();
 	delete app;

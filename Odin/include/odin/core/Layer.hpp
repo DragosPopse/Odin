@@ -17,7 +17,7 @@ namespace odin
 		Layer() = default;
 		virtual ~Layer() = default;
 
-		virtual bool onEvent(const Event& ev) { return true; }
+		virtual bool onEvent(const Event&) { return true; }
 		
 		uint32_t getEventMask() const { return m_eventMask; }
 
