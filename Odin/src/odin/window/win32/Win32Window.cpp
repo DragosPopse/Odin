@@ -147,7 +147,7 @@ namespace odin
 		{
 			WNDCLASSEXW windowClass{};
 			windowClass.cbSize = sizeof(WNDCLASSEXW);
-			windowClass.hInstance = GetModuleHandleW(0);
+			windowClass.hInstance = info.win32Instance;
 			windowClass.lpfnWndProc = &WindowProc;
 			windowClass.style = CS_OWNDC;
 			windowClass.lpszClassName = s_className;
@@ -163,7 +163,7 @@ namespace odin
 			info.style,
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			info.width, info.height,
-			NULL, NULL, GetModuleHandleW(0), this);
+			NULL, NULL, info.win32Instance, this);
 
 		ShowWindow(m_window, SW_SHOW);
 	}

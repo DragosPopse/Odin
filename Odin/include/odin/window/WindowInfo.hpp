@@ -16,6 +16,10 @@ namespace odin
 		uint32_t height = 0;
 		std::wstring title = L"Odin Application";
 		uint32_t style = 0;
+		
+#if defined (ODIN_PLATFORM_WINDOWS)
+		mutable HINSTANCE win32Instance = 0;
+#endif
 
 		constexpr WindowInfo() = default;
 	};

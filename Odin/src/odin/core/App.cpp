@@ -6,6 +6,10 @@ namespace odin
 {
 	App* App::s_instance = nullptr;
 
+#if defined(ODIN_PLATFORM_WINDOWS)
+	HINSTANCE App::s_win32Instance = 0;
+#endif
+
 	App::App()
 	{
 		s_instance = this;
@@ -18,6 +22,7 @@ namespace odin
 			{
 				m_layerManager.dispatchEvent(ev);
 			});
+		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
 
 		m_layerManager.push(info.entryLayer);

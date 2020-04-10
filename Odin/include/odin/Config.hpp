@@ -6,12 +6,12 @@
 
 #if defined(_WIN64)
 	#define ODIN_PLATFORM_WINDOWS
-	#define NOMINMAX
 #else
 	#error "Platform not supported"
 #endif
 
 #if defined(ODIN_PLATFORM_WINDOWS)
+	#define NOMINMAX
 	#define ODIN_MAIN_SIGNATURE int WINAPI ::WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #else
 	#define ODIN_MAIN_SIGNATURE int ::main(int, char**)

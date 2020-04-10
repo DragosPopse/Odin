@@ -22,6 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	int nCmdShow)
 {
 	createConsole();
+	odin::App::s_win32Instance = hInstance;
 	auto* app = odin::CreateApp();
 	app->Run();
 	delete app;

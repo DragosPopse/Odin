@@ -27,6 +27,10 @@ namespace odin
 		friend ODIN_MAIN_SIGNATURE;
 
 		static App* s_instance;
+		
+#if defined(ODIN_PLATFORM_WINDOWS)
+		static HINSTANCE s_win32Instance;
+#endif
 
 		Window m_window;
 		LayerManager m_layerManager;
