@@ -1,6 +1,7 @@
 #include <odin/window/win32/Win32Window.hpp>
 #include <odin/window/Event.hpp>
 #include <iostream>
+#include <odin/graphics/opengl/wgl/WglContext.hpp>
 
 namespace
 {
@@ -138,9 +139,14 @@ namespace odin
 	bool Win32Window::s_registerClass = true;
 	const wchar_t* Win32Window::s_className = L"Odin_DefaultWindow";
 
-	Win32Window::Win32Window(Window* apiWindow, EventCallbackFn eventFn, const WindowInfo& info) :
-		SystemWindow(apiWindow, eventFn)
-	{	
+	Win32Window::Win32Window(Window* apiWindow) :
+		SystemWindow(apiWindow)
+	{
+	}
+
+	void Win32Window::create(const WindowInfo& info)
+	{
+		destroy();
 		//First Window
 		//Register the window class
 		if (s_registerClass)
@@ -165,12 +171,20 @@ namespace odin
 			info.width, info.height,
 			NULL, NULL, info.win32Instance, this);
 
+		m_dc = GetDC(m_window);
+
 		ShowWindow(m_window, SW_SHOW);
 	}
 
-	Win32Window::~Win32Window()
+	void Win32Window::destroy()
 	{
-		DestroyWindow(m_window);
+		if (m_window)
+		{
+			ReleaseDC(m_window, m_dc);
+			m_dc = 0;
+			DestroyWindow(m_window);
+			m_window = 0;
+		}
 	}
 
 	WindowHandle Win32Window::getHandle() const

@@ -3,32 +3,32 @@
 
 namespace odin
 {
-	Window::Window(const WindowInfo& info)
+	Window::Window() :
+		m_systemWindow(this)
 	{
-		create(info);
 	}
 
 	void Window::create(const WindowInfo& info)
 	{
-		m_systemWindow.reset(new CurrentSystemWindow(this, m_eventCallback, info));
+		m_systemWindow.create(info);
 	}
 
 	void Window::processEvents()
 	{
-		if (m_systemWindow != nullptr)
+		if (m_systemWindow.isOpen())
 		{
-			m_systemWindow->processEvents();
+			m_systemWindow.processEvents();
 		}
 	}
 
 	bool Window::isOpen() const
 	{
-		return m_systemWindow != nullptr;
+		return m_systemWindow.isOpen();
 	}
 
 	void Window::close()
 	{
-		m_systemWindow.reset();
+		m_systemWindow.destroy();
 	}
 
 	void Window::defaultOnWindowClosed(const Event& ev)

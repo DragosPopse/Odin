@@ -4,6 +4,7 @@
 #include <odin/window/Window.hpp>
 #include <odin/core/AppInfo.hpp>
 #include <odin/core/LayerManager.hpp>
+#include <odin/graphics/opengl/OpenglContext.hpp>
 #include <memory>
 
 int main(int argc, char** argv);
@@ -34,6 +35,7 @@ namespace odin
 
 		Window m_window;
 		LayerManager m_layerManager;
+		OpenglContext m_glContext;
 	};
 
 	App* CreateApp();

@@ -14,9 +14,8 @@ namespace odin
 	class SystemWindow
 	{
 	public:
-		SystemWindow(Window* apiWindow, EventCallbackFn eventCallback) :
-			m_apiWindow(apiWindow),
-			m_onEventCallback(eventCallback)
+		SystemWindow(Window* apiWindow) :
+			m_apiWindow(apiWindow)
 		{
 		}
 		~SystemWindow() = default;
@@ -34,6 +33,16 @@ namespace odin
 		Vec2u getSize() const
 		{
 			return impl().getSize();
+		}
+
+		bool isOpen() const
+		{
+			return impl().isOpen();
+		}
+
+		void setEventCallback(EventCallbackFn callback)
+		{
+			m_onEventCallback = callback;
 		}
 
 	protected:
