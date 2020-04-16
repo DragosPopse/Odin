@@ -33,6 +33,39 @@ namespace odin
 		}
 	}
 
+	void LayerManager::update(float dt)
+	{
+		for (auto& layer : ReverseContainer(m_stack))
+		{
+			if (!layer->update(dt))
+			{
+				break;
+			}
+		}
+	}
+
+	void LayerManager::fixedUpdate(float dt)
+	{
+		for (auto& layer : ReverseContainer(m_stack))
+		{
+			if (!layer->fixedUpdate(dt))
+			{
+				break;
+			}
+		}
+	}
+
+	void LayerManager::draw()
+	{
+		for (auto& layer : m_stack)
+		{
+			if (!layer->draw())
+			{
+				break;
+			}
+		}
+	}
+
 	void LayerManager::applyChanges()
 	{
 		while (!m_pendingChanges.empty())

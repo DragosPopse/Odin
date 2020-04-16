@@ -22,13 +22,20 @@ namespace odin
 		static const wchar_t* s_className;
 
 	public:
-		Win32Window(Window* apiWindow, EventCallbackFn eventFn, const WindowInfo& info);
-		~Win32Window();
+		Win32Window(Window* apiWindow);
+		~Win32Window() = default;
+
+		void create(const WindowInfo& info);
+		void destroy();
 
 		WindowHandle getHandle() const;
 		Vec2u getSize() const;
 
 		void processEvents();
+
+		HDC getDC() const { return m_dc; }
+
+		bool isOpen() const { return m_window != 0; }
 		
 	private:
 		static LRESULT CALLBACK WindowProc(
@@ -42,6 +49,7 @@ namespace odin
 		HWND m_window = 0;
 		bool m_resizing = false;
 		Vec2u m_lastSize = Vec2u(0u, 0u);
+		HDC m_dc = 0;
 	};
 
 }

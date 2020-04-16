@@ -1,5 +1,6 @@
 #include <odin/core/App.hpp>
 #include <iostream>
+#include <glad/glad.h>
 
 
 namespace odin
@@ -17,6 +18,7 @@ namespace odin
 
 	void App::create(const AppInfo& info)
 	{
+		OpenglContext::init();
 		m_window.setEventCallback(
 			[this](const Event& ev)
 			{
@@ -24,6 +26,8 @@ namespace odin
 			});
 		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
+		m_glContext.create(m_window);
+		m_glContext.makeCurrent(m_window);
 
 		m_layerManager.push(info.entryLayer);
 		m_layerManager.applyChanges();
@@ -41,6 +45,11 @@ namespace odin
 			{
 				m_window.close();
 			}
+
+			glClearColor(0, 0, 0, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+
+			OpenglContext::swapBuffers(m_window);
 		}
 	}
 }

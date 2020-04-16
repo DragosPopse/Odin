@@ -32,8 +32,7 @@ namespace odin
 #endif
 		
 
-		Window(const WindowInfo& info);
-		Window() = default;
+		Window();
 		~Window() = default;
 
 		void create(const WindowInfo& info);
@@ -46,14 +45,15 @@ namespace odin
 
 		void setEventCallback(EventCallbackFn callback)
 		{
-			m_eventCallback = callback;
+			m_systemWindow.setEventCallback(callback);
 		}
+
+		CurrentSystemWindow& getSystemWindow() { return m_systemWindow; }
 
 	private:
 		static void defaultOnWindowClosed(const Event& ev);
 
-		std::unique_ptr<CurrentSystemWindow> m_systemWindow;
-		EventCallbackFn m_eventCallback;
+		CurrentSystemWindow m_systemWindow;
 	};
 }
 
