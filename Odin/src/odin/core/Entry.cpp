@@ -17,10 +17,12 @@ namespace
 }
 
 int WINAPI WinMain(HINSTANCE hInstance,
-	HINSTANCE hPrevInstance, 
+	HINSTANCE, 
 	LPSTR pCmdLine,
 	int nCmdShow)
 {
+	(void)pCmdLine;
+	(void)nCmdShow;
 	createConsole();
 	odin::App::s_win32Instance = hInstance;
 	auto* app = odin::CreateApp();

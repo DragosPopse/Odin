@@ -3,6 +3,7 @@
 
 #include <odin/Config.hpp>
 #include <Windows.h>
+#include <odin/graphics/opengl/OpenglContextInfo.hpp>
 
 namespace odin
 {
@@ -14,7 +15,7 @@ namespace odin
 		constexpr WglContext() = default;
 		~WglContext() = default;
 
-		bool create(Window& window);
+		bool create(Window& window, const OpenglContextInfo& info);
 		void destroy();
 		bool makeCurrent(Window& window);
 		static void swapBuffers(Window& window);

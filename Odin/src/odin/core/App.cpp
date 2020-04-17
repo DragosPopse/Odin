@@ -26,7 +26,8 @@ namespace odin
 			});
 		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
-		m_glContext.create(m_window);
+
+		m_glContext.create(m_window, info.opengl);
 		m_glContext.makeCurrent(m_window);
 
 		m_layerManager.push(info.entryLayer);

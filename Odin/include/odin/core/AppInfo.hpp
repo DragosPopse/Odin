@@ -5,6 +5,11 @@
 #include <odin/window/WindowInfo.hpp>
 #include <memory>
 
+#if defined(ODIN_RENDERAPI_OPENGL)
+
+#endif
+#include <odin/graphics/opengl/OpenglContextInfo.hpp>
+
 namespace odin
 {
 	class Layer;
@@ -13,6 +18,7 @@ namespace odin
 	{
 		WindowInfo window;
 		std::shared_ptr<Layer> entryLayer;
+		OpenglContextInfo opengl;
 	};
 }
 

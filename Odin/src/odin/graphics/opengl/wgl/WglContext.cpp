@@ -104,7 +104,7 @@ namespace odin
 		return true;
 	}
 
-	bool WglContext::create(Window& window)
+	bool WglContext::create(Window& window, const OpenglContextInfo& info)
 	{
 		auto& win32Window = window.getSystemWindow();
 		auto dc = win32Window.getDC();
@@ -128,10 +128,10 @@ namespace odin
 			std::cout << "Failed to set OpenGL pixel format.\n";
 			return false;
 		}
-
+		
 		int contextAttribs[]{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 3,
+			WGL_CONTEXT_MAJOR_VERSION_ARB, info.majorVersion,
+			WGL_CONTEXT_MINOR_VERSION_ARB, info.minorVersion,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 			0
 		};

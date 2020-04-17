@@ -1,5 +1,6 @@
 IncludeDir = {}
 LibDirs = {}
+RenderAPI = "OpenGL"
 
 
 odinOutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -31,32 +32,24 @@ workspace "Odin"
             "X11"
         }
 
-    project "GLAD"
-        kind "StaticLib"
-        language "C"
-        location "external/GLAD"
-
-        targetdir ("external/GLAD/bin/" .. odinOutputDir .. "/%{prj.name}")
-        objdir ("external/GLAD/bin-int/" .. odinOutputDir .. "/%{prj.name}")
-
-        files
-        {
-            "Odin/include/glad/glad.h",
-            "Odin/include/KHR/khrplatform.h",
-            "Odin/include/glad/glad_wgl.h",
-            "external/GLAD/src/glad.c",
-            "external/GLAD/src/glad_wgl.c"
-        }
-
-        includedirs
-        {
-            "Odin/include"
-        }
-
-
     project "Odin"
         location "Odin"
         kind "StaticLib"
+
+        if RenderAPI == "OpenGL" then
+            defines {
+                "ODIN_RENDERAPI_OPENGL"
+            }
+        elseif RenderAPI == "DirectX" then
+            defines {
+                "ODIN_RENDERAPI_DIRECTX"
+            }
+
+        elseif RenderAPI == "Vulkan" then
+            defines {
+                "ODIN_RENDERAPI_VULKAN"
+            }
+        end
         
         warnings "Extra"
 
@@ -65,6 +58,7 @@ workspace "Odin"
 
         files {
             "%{prj.name}/src/**.cpp",
+            "%{prj.name}/src/**.c",
             "%{prj.name}/include/**.h",
             "%{prj.name}/include/**.hpp"
         }
@@ -73,18 +67,16 @@ workspace "Odin"
             "%{prj.location}/include"
         }
 
-        links {
-            "GLAD"
-        }
-
-        libdirs {
-            
-        }
 
         filter "system:windows"
             cppdialect "C++17"
             staticruntime "On"
             systemversion "latest"
+
+        excludes {
+            "%{prj.name}/include/glad/glad_glx.h",
+            "%{prj.name}/src/glad/glad_glx.c"
+        }
 
         filter {"configurations:Debug"}
             symbols "On"
