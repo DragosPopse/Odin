@@ -49,6 +49,8 @@ public:
 		app.window.title = L"Odin Testone";
 		app.window.style = odin::mask(odin::Window::Style::Overlapped);
 		app.entryLayer.reset(new EntryLayer());
+		app.opengl.majorVersion = 3;
+		app.opengl.minorVersion = 3;
 		create(app);
 	}
 };

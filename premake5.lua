@@ -78,6 +78,12 @@ workspace "Odin"
             "%{prj.name}/src/glad/glad_glx.c"
         }
 
+        filter "system:linux"
+        excludes {
+            "%{prj.name}/include/glad/glad_wgl.h",
+            "%{prj.name}/src/glad/glad_wgl.c"
+        }
+
         filter {"configurations:Debug"}
             symbols "On"
             defines {
