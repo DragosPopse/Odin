@@ -20,6 +20,7 @@ public:
 		m_log["code"] = []()->std::string {
 			return "mycode";
 		};
+		m_log.useLocalTime(true);
 		m_log.setFormat("[{mday}/{nmon}/{year} {hour}:{min}:{sec}] [{lvl}] {0}");
 	}
 
