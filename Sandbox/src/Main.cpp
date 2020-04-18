@@ -8,7 +8,7 @@
 class EntryLayer : 
 	public odin::Layer
 {
-	odin::Logger log;
+	odin::Logger m_log;
 
 public:
 	EntryLayer()
@@ -16,12 +16,11 @@ public:
 		registerEvents(
 			odin::Event::Type::All
 		);
-		log.setStream(std::cout);
-		log["code"] = []()->std::string {
+		m_log.setStream(std::cout);
+		m_log["code"] = []()->std::string {
 			return "mycode";
 		};
-		log.setFormat("{1}  {code} {2}");
-		log(odin::Logger::Level::Debug, "World", "Hello");
+		m_log.setFormat("[{mday}/{nmon}/{year} {hour}:{min}:{sec}] [{lvl}] {0}");
 	}
 
 	bool onEvent(const odin::Event& ev) override
@@ -34,7 +33,7 @@ public:
 
 		case odin::Event::Type::KeyRepeated:
 		case odin::Event::Type::KeyPressed:
-			std::cout << "Pressed" << '\n';
+			m_log(odin::Logger::Level::Info, "Pressed");
 			return false;
 
 		case odin::Event::Type::WindowResized:
