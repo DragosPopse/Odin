@@ -7,8 +7,8 @@ namespace odin
 {
 	struct OpenglContextInfo
 	{
-		uint32_t majorVersion = 3;
-		uint32_t minorVersion = 3;
+		int32_t majorVersion = 3;
+		int32_t minorVersion = 3;
 
 
 		constexpr OpenglContextInfo() = default;

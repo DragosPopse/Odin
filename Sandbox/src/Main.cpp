@@ -1,17 +1,27 @@
 #include <iostream>
 #include <odin/core/Entry.hpp>
 #include <odin/core/App.hpp>
+#include <glad/glad.h>
+#include <odin/debug/Logger.hpp>
 
 
 class EntryLayer : 
 	public odin::Layer
 {
+	odin::Logger log;
+
 public:
 	EntryLayer()
 	{
 		registerEvents(
 			odin::Event::Type::All
 		);
+		log.setStream(std::cout);
+		log["code"] = []()->std::string {
+			return "mycode";
+		};
+		log.setFormat("{1}  {code} {2}");
+		log(odin::Logger::Level::Debug, "World", "Hello");
 	}
 
 	bool onEvent(const odin::Event& ev) override
@@ -28,11 +38,17 @@ public:
 			return false;
 
 		case odin::Event::Type::WindowResized:
-			std::cout << "Resize: " << ev.size.width << ' ' << ev.size.height << '\n';
+			glViewport(0, 0, ev.size.width, ev.size.height);
 			return false;
 		}
 
 		return true;
+	}
+
+	bool draw() override
+	{
+		
+		return false;
 	}
 };
 
@@ -52,6 +68,7 @@ public:
 		app.opengl.majorVersion = 3;
 		app.opengl.minorVersion = 3;
 		create(app);
+		glViewport(0, 0, app.window.width, app.window.height);
 	}
 };
 

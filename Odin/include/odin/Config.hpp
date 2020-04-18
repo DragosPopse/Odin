@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <type_traits>
 
+//to be added in other header
+#include <string>
+#include <sstream>
+
 #if defined(_WIN64)
 	#define ODIN_PLATFORM_WINDOWS
 #else
@@ -31,6 +35,15 @@ namespace odin
 	constexpr auto mask(Args... args)
 	{
 		return (etoi(args) | ...);
+	}
+
+	//to be added in other header
+	template <typename... Args>
+	constexpr std::string concat(Args... args)
+	{
+		std::stringstream ss;
+		(ss << ... << args);
+		return ss.str();
 	}
 }
 

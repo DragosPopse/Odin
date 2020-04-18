@@ -162,12 +162,17 @@ namespace odin
 			s_registerClass = false;
 		}
 
+		RECT rect;
+		GetClientRect(GetDesktopWindow(), &rect);
+		rect.left = (rect.right / 2) - info.width / 2;
+		rect.top = (rect.bottom / 2) - info.height / 2;
+
 		m_window = CreateWindowExW(
 			0,
 			s_className,
 			info.title.c_str(),
 			info.style,
-			CW_USEDEFAULT, CW_USEDEFAULT,
+			rect.left, rect.top,
 			info.width, info.height,
 			NULL, NULL, info.win32Instance, this);
 
