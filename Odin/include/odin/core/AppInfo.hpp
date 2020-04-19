@@ -40,6 +40,11 @@ namespace odin
 		uint32_t fixedTicksPerSecond = 60;
 
 		/*
+			String to be used to format library logs. 
+		*/
+		std::string systemLogFormat = ODIN_STANDARD_LOG_FORMAT;
+
+		/*
 			Stream used for writing logs from withing odin. 
 			Should be a global stream.
 			Defaults to console.

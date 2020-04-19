@@ -25,7 +25,7 @@ namespace odin
 		ODIN_USE_TIME_LITERALS;
 
 		m_systemLogger.setStream(*info.systemLogStream);
-		m_systemLogger.setFormat(ODIN_STANDARD_LOG_FORMAT);
+		m_systemLogger.setFormat(info.systemLogFormat);
 		m_systemLogger.useLocalTime(true);
 
 		m_fixedDeltaTime = 1s / static_cast<float>(info.fixedTicksPerSecond);
