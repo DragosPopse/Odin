@@ -5,6 +5,8 @@
 
 namespace odin
 {
+
+
 	App* App::s_instance = nullptr;
 
 #if defined(ODIN_PLATFORM_WINDOWS)
@@ -18,6 +20,9 @@ namespace odin
 
 	void App::create(const AppInfo& info)
 	{
+		m_systemLogger.setStream(*info.systemLogStream);
+		m_systemLogger.setFormat(ODIN_STANDARD_LOG_FORMAT);
+		m_systemLogger.useLocalTime(true);
 		OpenglContext::init();
 		m_window.setEventCallback(
 			[this](const Event& ev)
@@ -26,9 +31,11 @@ namespace odin
 			});
 		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
+		m_systemLogger(odin::Logger::Level::Info, "Window created");
 
 		m_glContext.create(m_window, info.opengl);
 		m_glContext.makeCurrent(m_window);
+		m_systemLogger(odin::Logger::Level::Info, "OpenGL Context created");
 
 		m_layerManager.push(info.entryLayer);
 		m_layerManager.applyChanges();

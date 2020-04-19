@@ -23,6 +23,8 @@
 
 #define ODIN_BIT(x) (1 << x)
 
+#define ODIN_STANDARD_LOG_FORMAT "[{mday}/{nmon}/{year} {hour}:{min}:{sec}] [{lvl}] {0}"
+
 namespace odin
 {
 	template <typename E>

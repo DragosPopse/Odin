@@ -6,6 +6,7 @@
 #include <odin/core/LayerManager.hpp>
 #include <odin/graphics/opengl/OpenglContext.hpp>
 #include <memory>
+#include <odin/debug/Logger.hpp>
 
 int main(int argc, char** argv);
 
@@ -18,6 +19,8 @@ namespace odin
 		virtual ~App() = default;
 
 		void create(const AppInfo& app);
+
+		inline Logger& getSystemLogger() { return m_systemLogger; }
 
 		inline static App& get() { return *s_instance; }
 
@@ -36,6 +39,7 @@ namespace odin
 		Window m_window;
 		LayerManager m_layerManager;
 		OpenglContext m_glContext;
+		Logger m_systemLogger;
 	};
 
 	App* CreateApp();
