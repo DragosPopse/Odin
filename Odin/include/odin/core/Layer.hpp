@@ -4,6 +4,7 @@
 #include <odin/Config.hpp>
 #include <odin/window/Event.hpp>
 #include <memory>
+#include <odin/core/Time.hpp>
 
 namespace odin
 {
@@ -18,8 +19,8 @@ namespace odin
 		virtual ~Layer() = default;
 
 		virtual bool onEvent(const Event&) { return true; }
-		virtual bool update(float) { return false; }
-		virtual bool fixedUpdate(float) { return false; }
+		virtual bool update(Time) { return false; }
+		virtual bool fixedUpdate(Time) { return false; }
 		virtual bool draw() { return false; }
 		
 		uint32_t getEventMask() const { return m_eventMask; }

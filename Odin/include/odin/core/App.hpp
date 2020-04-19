@@ -7,6 +7,7 @@
 #include <odin/graphics/opengl/OpenglContext.hpp>
 #include <memory>
 #include <odin/debug/Logger.hpp>
+#include <odin/core/Time.hpp>
 
 int main(int argc, char** argv);
 
@@ -40,6 +41,7 @@ namespace odin
 		LayerManager m_layerManager;
 		OpenglContext m_glContext;
 		Logger m_systemLogger;
+		Time m_fixedDeltaTime;
 	};
 
 	App* CreateApp();

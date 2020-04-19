@@ -42,8 +42,8 @@ namespace odin
 
 		void applyChanges();
 
-		void update(float dt);
-		void fixedUpdate(float dt);
+		void update(Time dt);
+		void fixedUpdate(Time dt);
 		void draw();
 
 		void dispatchEvent(const Event& ev);

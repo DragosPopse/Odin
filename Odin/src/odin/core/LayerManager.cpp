@@ -33,7 +33,7 @@ namespace odin
 		}
 	}
 
-	void LayerManager::update(float dt)
+	void LayerManager::update(Time dt)
 	{
 		for (auto& layer : ReverseContainer(m_stack))
 		{
@@ -44,7 +44,7 @@ namespace odin
 		}
 	}
 
-	void LayerManager::fixedUpdate(float dt)
+	void LayerManager::fixedUpdate(Time dt)
 	{
 		for (auto& layer : ReverseContainer(m_stack))
 		{
