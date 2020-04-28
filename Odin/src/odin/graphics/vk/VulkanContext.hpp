@@ -3,22 +3,22 @@
 
 #include <odin/Config.hpp>
 #include <vulkan/vulkan.h>
-#include <odin/graphics/GraphicsInfo.hpp>
+#include <odin/graphics/GraphicsContext.hpp>
 #include <vector>
 
 namespace odin
 {
 	class Window;
 
-	class VulkanContext
+	class GraphicsContext::Impl
 	{
 	public:
-		VulkanContext() = default;
-		~VulkanContext() = default;
+		Impl() = default;
+		~Impl() = default;
 
-		static bool init();
+		static void init();
 
-		bool create(Window& window, const GraphicsInfo& info);
+		void create(Window& window, const GraphicsInfo& info);
 		void destroy();
 
 		void swapBuffers();

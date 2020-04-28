@@ -9,7 +9,7 @@
 
 namespace odin
 {
-	void* WglContext::getFunction(const char* name)
+	void* GraphicsContext::Impl::Impl2::getFunction(const char* name)
 	{
 		void* p = (void*)wglGetProcAddress(name);
 		if (p == 0 ||
@@ -23,7 +23,7 @@ namespace odin
 		return p;
 	}
 
-	bool WglContext::init()
+	bool GraphicsContext::Impl::Impl2::init()
 	{
 		WNDCLASSW dummyWinClass{};
 		dummyWinClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -99,9 +99,11 @@ namespace odin
 		return true;
 	}
 
-	bool WglContext::create(Window& window, const GraphicsInfo& info)
+	bool GraphicsContext::Impl::Impl2::create(Window& window, const GraphicsInfo& info)
 	{
+		m_window = &window;
 		auto* win32Window = window.getSystemWindow();
+
 		auto dc = win32Window->getDC();
 		int pixelFormatAttribs[]{
 			WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
@@ -153,7 +155,7 @@ namespace odin
 	}
 
 
-	void WglContext::destroy()
+	void GraphicsContext::Impl::Impl2::destroy()
 	{
 		if (m_context)
 		{
@@ -161,7 +163,7 @@ namespace odin
 		}
 	}
 
-	void WglContext::swapBuffers()
+	void GraphicsContext::Impl::Impl2::swapBuffers()
 	{
 		SwapBuffers(m_window->getSystemWindow()->getDC());
 	}

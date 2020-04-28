@@ -48,7 +48,7 @@ namespace
 
 namespace odin
 {
-	std::vector<const char*> VulkanContext::getInstanceExtensions()
+	std::vector<const char*> GraphicsContext::Impl::getInstanceExtensions()
 	{
 		std::vector<const char*> extensions;
 		extensions.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
@@ -63,12 +63,11 @@ namespace odin
 		return extensions;
 	}
 
-	bool VulkanContext::init()
+	void GraphicsContext::Impl::init()
 	{
-		return true;
 	}
 
-	bool VulkanContext::create(Window& window, const GraphicsInfo& info)
+	void GraphicsContext::Impl::create(Window& window, const GraphicsInfo& info)
 	{
 		if (enableValidationLayers && !checkValidationLayerSupport())
 		{
@@ -119,13 +118,9 @@ namespace odin
 				throw GraphicsException("Failed to create messenger.", result);
 			}
 		}
-
-
-
-		return true;
 	}
 
-	bool VulkanContext::checkValidationLayerSupport()
+	bool GraphicsContext::Impl::checkValidationLayerSupport()
 	{
 		uint32_t layerCount;
 
@@ -155,12 +150,12 @@ namespace odin
 		return true;
 	}
 
-	void VulkanContext::swapBuffers()
+	void GraphicsContext::Impl::swapBuffers()
 	{
 
 	}
 
-	void VulkanContext::destroy()
+	void GraphicsContext::Impl::destroy()
 	{
 		if constexpr (enableValidationLayers)
 		{

@@ -39,7 +39,7 @@ namespace odin
 		m_onEventCallback = callback;
 	}
 
-	inline Window::Impl* Window::getSystemWindow()
+	Window::Impl* Window::getSystemWindow()
 	{
 		return m_impl.get();
 	}

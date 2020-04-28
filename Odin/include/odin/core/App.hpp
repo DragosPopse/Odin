@@ -11,9 +11,6 @@
 #include <odin/debug/Logger.hpp>
 #include <odin/core/Time.hpp>
 
-#include <odin/graphics/opengl/OpenglContext.hpp>
-#include <odin/graphics/vk/VulkanContext.hpp>
-int main(int argc, char** argv);
 
 namespace odin
 {

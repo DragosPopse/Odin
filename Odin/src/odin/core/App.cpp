@@ -44,9 +44,9 @@ namespace odin
 			});
 		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
-		uint32_t extensions = 0;
-		vkEnumerateInstanceExtensionProperties(nullptr, &extensions, nullptr);
-		m_systemLogger(Logger::Level::Info, concat(extensions, " Extensions"));
+		//uint32_t extensions = 0;
+		//vkEnumerateInstanceExtensionProperties(nullptr, &extensions, nullptr);
+		//m_systemLogger(Logger::Level::Info, concat(extensions, " Extensions"));
 		m_systemLogger(odin::Logger::Level::Debug, "Window created");
 
 		info.graphics.vulkan.appName = info.name;
@@ -75,9 +75,10 @@ namespace odin
 			}
 
 
-			//glClearColor(0, 0, 0, 1);
-			m_layerManager.draw();
+			//glClearColor(0, 0, 1, 1);
 			//glClear(GL_COLOR_BUFFER_BIT);
+
+			m_layerManager.draw();
 			m_graphicsContext.swapBuffers();
 
 			m_layerManager.applyChanges();

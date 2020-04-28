@@ -2,6 +2,12 @@ IncludeDir = {}
 LibDirs = {}
 RenderAPI = "Vulkan"
 
+if os.target() == "windows" then
+    glLib = "opengl32"
+elseif os.target() == "linux" then
+    glLib = "GL"
+end
+
 
 odinOutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -18,12 +24,6 @@ workspace "Odin"
 
 
     filter {"system:windows"}
-        --if RenderAPI == "OpenGL" then
-            links {
-                "opengl32"
-            }
-        --end
-        
         defines {
             "_CRT_SECURE_NO_WARNINGS"
         }
@@ -31,38 +31,12 @@ workspace "Odin"
     filter {"system:linux"}
         toolset "gcc"
         links {
-            "GL",
             "X11"
         }
 
     project "Odin"
         location "Odin"
         kind "StaticLib"
-
-        if RenderAPI == "OpenGL" then
-            defines {
-                "ODIN_RENDERAPI_OPENGL"
-            }
-        elseif RenderAPI == "DirectX" then
-            defines {
-                "ODIN_RENDERAPI_DIRECTX"
-            }
-
-        elseif RenderAPI == "Vulkan" then
-            defines {
-                "ODIN_RENDERAPI_VULKAN"
-            }
-            links {
-                "vulkan-1"
-            }
-        end
-        
-        warnings "Extra"
-
-        targetdir ("%{prj.name}/bin/" .. odinOutputDir .. "/%{prj.name}")
-        objdir ("%{prj.name}/bin-int/" .. odinOutputDir .. "/%{prj.name}")
-
-        
 
         files {
             "%{prj.name}/src/**.cpp",
@@ -76,6 +50,44 @@ workspace "Odin"
             "%{prj.location}/include",
             "%{prj.location}/src"
         }
+
+        if RenderAPI == "OpenGL" then
+            defines {
+                "ODIN_RENDERAPI_OPENGL"
+            }
+            links {
+                glLib
+            }
+            excludes {
+                "%{prj.name}/src/odin/graphics/vk/**.cpp",
+                "%{prj.name}/src/odin/graphics/vk/**.hpp"
+            }
+        elseif RenderAPI == "DirectX" then
+            defines {
+                "ODIN_RENDERAPI_DIRECTX"
+            }
+
+        elseif RenderAPI == "Vulkan" then
+            defines {
+                "ODIN_RENDERAPI_VULKAN"
+            }
+            links {
+                "vulkan-1"
+            }
+            excludes {
+                "%{prj.name}/src/odin/graphics/opengl/**.cpp",
+                "%{prj.name}/src/odin/graphics/opengl/**.hpp"
+            }
+        end
+        
+        warnings "Extra"
+
+        targetdir ("%{prj.name}/bin/" .. odinOutputDir .. "/%{prj.name}")
+        objdir ("%{prj.name}/bin-int/" .. odinOutputDir .. "/%{prj.name}")
+
+        
+
+        
 
 
         filter "system:windows"
@@ -120,21 +132,6 @@ workspace "Odin"
 
         targetdir ("%{prj.name}/bin/" .. odinOutputDir .. "/%{prj.name}")
         objdir ("%{prj.name}/bin-int/" .. odinOutputDir .. "/%{prj.name}")
-
-        if RenderAPI == "OpenGL" then
-            defines {
-                "ODIN_RENDERAPI_OPENGL"
-            }
-        elseif RenderAPI == "DirectX" then
-            defines {
-                "ODIN_RENDERAPI_DIRECTX"
-            }
-
-        elseif RenderAPI == "Vulkan" then
-            defines {
-                "ODIN_RENDERAPI_VULKAN"
-            }
-        end
 
         files {
             "%{prj.name}/src/**.cpp",

@@ -4,16 +4,17 @@
 #include <odin/Config.hpp>
 #include <Windows.h>
 #include <odin/graphics/GraphicsInfo.hpp>
+#include <odin/graphics/opengl/OpenglContext.hpp>
 
 namespace odin
 {
 	class Window;
 
-	class WglContext
+	class GraphicsContext::Impl::Impl2
 	{
 	public:
-		constexpr WglContext() = default;
-		~WglContext() = default;
+		constexpr Impl2() = default;
+		~Impl2() = default;
 
 		bool create(Window& window, const GraphicsInfo& info);
 		void destroy();
