@@ -6,18 +6,13 @@
 #include <memory>
 #include <odin/window/WindowInfo.hpp>
 
-#if defined(ODIN_PLATFORM_WINDOWS)
-#include <odin/window/win32/Win32Window.hpp>
-namespace odin
-{
-	using CurrentSystemWindow = Win32Window;
-}
-#endif
 
 namespace odin
 {
 	class Window
 	{
+		class Impl;
+
 	public:
 #if defined(ODIN_PLATFORM_WINDOWS)
 		enum class Style
@@ -33,27 +28,20 @@ namespace odin
 		
 
 		Window();
-		~Window() = default;
+		~Window();
 
 		void create(const WindowInfo& info);
-
 		void processEvents();
-
 		bool isOpen() const;
-
 		void close();
-
-		void setEventCallback(EventCallbackFn callback)
-		{
-			m_systemWindow.setEventCallback(callback);
-		}
-
-		CurrentSystemWindow& getSystemWindow() { return m_systemWindow; }
+		void setEventCallback(EventCallbackFn callback);
+		Impl* getSystemWindow();
 
 	private:
 		static void defaultOnWindowClosed(const Event& ev);
 
-		CurrentSystemWindow m_systemWindow;
+		EventCallbackFn m_onEventCallback;
+		std::unique_ptr<Impl> m_impl;
 	};
 }
 

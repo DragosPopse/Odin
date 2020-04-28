@@ -68,11 +68,13 @@ workspace "Odin"
             "%{prj.name}/src/**.cpp",
             "%{prj.name}/src/**.c",
             "%{prj.name}/include/**.h",
-            "%{prj.name}/include/**.hpp"
+            "%{prj.name}/include/**.hpp",
+            "%{prj.name}/src/**.hpp"
         }
 
         includedirs {
-            "%{prj.location}/include"
+            "%{prj.location}/include",
+            "%{prj.location}/src"
         }
 
 

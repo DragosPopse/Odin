@@ -5,6 +5,7 @@
 #include <odin/window/Window.hpp>
 #include <iostream>
 #include <odin/graphics/GraphicsException.hpp>
+#include <odin/window/win32/Win32Window.hpp>
 
 namespace odin
 {
@@ -100,8 +101,8 @@ namespace odin
 
 	bool WglContext::create(Window& window, const GraphicsInfo& info)
 	{
-		auto& win32Window = window.getSystemWindow();
-		auto dc = win32Window.getDC();
+		auto* win32Window = window.getSystemWindow();
+		auto dc = win32Window->getDC();
 		int pixelFormatAttribs[]{
 			WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
 			WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
@@ -143,7 +144,7 @@ namespace odin
 			throw GraphicsException("Failed to create OpenGL context.");
 		}
 
-		if (!wglMakeCurrent(window.getSystemWindow().getDC(), m_context))
+		if (!wglMakeCurrent(window.getSystemWindow()->getDC(), m_context))
 		{
 			throw GraphicsException("Failed to activate context.");
 		}
@@ -162,6 +163,6 @@ namespace odin
 
 	void WglContext::swapBuffers()
 	{
-		SwapBuffers(m_window->getSystemWindow().getDC());
+		SwapBuffers(m_window->getSystemWindow()->getDC());
 	}
 }

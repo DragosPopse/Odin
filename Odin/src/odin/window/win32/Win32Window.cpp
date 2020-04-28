@@ -1,7 +1,5 @@
 #include <odin/window/win32/Win32Window.hpp>
-#include <odin/window/Event.hpp>
 #include <iostream>
-#include <odin/graphics/opengl/wgl/WglContext.hpp>
 
 namespace
 {
@@ -37,7 +35,7 @@ namespace
 namespace odin
 {
 
-	LRESULT CALLBACK Win32Window::WindowProc(
+	LRESULT CALLBACK Window::Impl::WindowProc(
 		_In_ HWND handle,
 		_In_ UINT message,
 		_In_ WPARAM wparam,
@@ -46,7 +44,7 @@ namespace odin
 	{
 		if (message == WM_CREATE)
 		{
-			Win32Window* window = static_cast<Win32Window*>(reinterpret_cast<CREATESTRUCTW*>(lparam)->lpCreateParams);
+			Window::Impl* window = static_cast<Window::Impl*>(reinterpret_cast<CREATESTRUCTW*>(lparam)->lpCreateParams);
 			SetLastError(0);
 			if (!SetWindowLongPtrW(handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window)))
 			{
@@ -58,7 +56,7 @@ namespace odin
 			return 0;
 		}
 
-		Win32Window* window = handle ? reinterpret_cast<Win32Window*>(GetWindowLongPtrW(handle, GWLP_USERDATA)) : nullptr;
+		Window::Impl* window = handle ? reinterpret_cast<Window::Impl*>(GetWindowLongPtrW(handle, GWLP_USERDATA)) : nullptr;
 
 		if (window)
 		{
@@ -68,7 +66,7 @@ namespace odin
 			{
 			case WM_CLOSE:
 				ev.type = Event::Type::WindowClosed;
-				window->m_onEventCallback(ev);
+				window->m_apiWindow->m_onEventCallback(ev);
 				return 0;
 
 			case WM_ENTERSIZEMOVE:
@@ -83,7 +81,7 @@ namespace odin
 					ev.type = Event::Type::WindowResized;
 					ev.size.width = window->m_lastSize.x;
 					ev.size.height = window->m_lastSize.y;
-					window->m_onEventCallback(ev);
+					window->m_apiWindow->m_onEventCallback(ev);
 				}
 				return 0;
 
@@ -94,18 +92,18 @@ namespace odin
 					ev.type = Event::Type::WindowResized;
 					ev.size.width = window->m_lastSize.x;
 					ev.size.height = window->m_lastSize.y;
-					window->m_onEventCallback(ev);
+					window->m_apiWindow->m_onEventCallback(ev);
 				}
 				return 0;
 
 			case WM_KILLFOCUS:
 				ev.type = Event::Type::LostFocus;
-				window->m_onEventCallback(ev);
+				window->m_apiWindow->m_onEventCallback(ev);
 				return 0;
 
 			case WM_SETFOCUS:
 				ev.type = Event::Type::GainedFocus;
-				window->m_onEventCallback(ev);
+				window->m_apiWindow->m_onEventCallback(ev);
 				return 0;
 
 			case WM_SYSKEYDOWN:
@@ -118,7 +116,7 @@ namespace odin
 					Event::Type::KeyPressed;
 
 				ev.key.code = static_cast<Keyboard::Key>(wparam);
-				window->m_onEventCallback(ev);
+				window->m_apiWindow->m_onEventCallback(ev);
 				return 0;
 
 			case WM_SYSKEYUP:
@@ -126,7 +124,7 @@ namespace odin
 				ev.type = Event::Type::KeyReleased;
 				wparam = MapLeftRightKeys(wparam, lparam);
 				ev.key.code = static_cast<Keyboard::Key>(wparam);
-				window->m_onEventCallback(ev);
+				window->m_apiWindow->m_onEventCallback(ev);
 				return 0;
 			}
 		}
@@ -136,15 +134,15 @@ namespace odin
 	}
 	
 
-	bool Win32Window::s_registerClass = true;
-	const wchar_t* Win32Window::s_className = L"Odin_DefaultWindow";
+	bool Window::Impl::s_registerClass = true;
+	const wchar_t* Window::Impl::s_className = L"Odin_DefaultWindow";
 
-	Win32Window::Win32Window(Window* apiWindow) :
-		SystemWindow(apiWindow)
+	Window::Impl::Impl(Window* apiWindow) :
+		m_apiWindow(apiWindow)
 	{
 	}
 
-	void Win32Window::create(const WindowInfo& info)
+	void Window::Impl::create(const WindowInfo& info)
 	{
 		destroy();
 		//First Window
@@ -181,7 +179,7 @@ namespace odin
 		ShowWindow(m_window, SW_SHOW);
 	}
 
-	void Win32Window::destroy()
+	void Window::Impl::destroy()
 	{
 		if (m_window)
 		{
@@ -192,19 +190,19 @@ namespace odin
 		}
 	}
 
-	WindowHandle Win32Window::getHandle() const
+	HWND Window::Impl::getHandle() const
 	{
 		return m_window;
 	}
 
-	Vec2u Win32Window::getSize() const
+	Vec2u Window::Impl::getSize() const
 	{
 		RECT rect;
 		GetClientRect(m_window, &rect);
 		return { (uint32_t)rect.right - (uint32_t)rect.left, (uint32_t)rect.bottom - (uint32_t)rect.top };
 	}
 
-	void Win32Window::processEvents()
+	void Window::Impl::processEvents()
 	{
 		MSG message;
 		while (PeekMessageW(&message, m_window, 0, 0, PM_REMOVE))
@@ -212,5 +210,15 @@ namespace odin
 			TranslateMessage(&message);
 			DispatchMessageW(&message);
 		}
+	}
+
+	HDC Window::Impl::getDC() const
+	{
+		return m_dc;
+	}
+
+	bool Window::Impl::isOpen() const
+	{
+		return m_window != 0;
 	}
 }
