@@ -9,7 +9,7 @@
 #if defined(ODIN_RENDERAPI_OPENGL)
 
 #endif
-#include <odin/graphics/opengl/OpenglContextInfo.hpp>
+#include <odin/graphics/GraphicsInfo.hpp>
 
 namespace odin
 {
@@ -21,6 +21,13 @@ namespace odin
 	struct AppInfo
 	{
 		AppInfo() = default;
+		~AppInfo() = default;
+
+		/*
+			Name of the application. 
+			Should be a ANSI string because it will also be used in initializing Vulkan. 
+		*/
+		std::string name;
 
 		/*
 			Display window
@@ -33,7 +40,7 @@ namespace odin
 		/*
 			OpenGL context settings
 		*/
-		OpenglContextInfo opengl;
+		GraphicsInfo graphics;
 		/*
 			Number of times the fixedUpdate() will occur per second
 		*/

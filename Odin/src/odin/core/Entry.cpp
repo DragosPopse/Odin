@@ -28,6 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	auto* app = odin::CreateApp();
 	app->Run();
 	delete app;
+	while (true);
 	return 0;
 }
 

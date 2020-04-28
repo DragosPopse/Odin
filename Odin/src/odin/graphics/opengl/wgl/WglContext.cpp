@@ -4,6 +4,7 @@
 #include <glad/glad_wgl.h>
 #include <odin/window/Window.hpp>
 #include <iostream>
+#include <odin/graphics/GraphicsException.hpp>
 
 namespace odin
 {
@@ -31,8 +32,7 @@ namespace odin
 
 		if (!RegisterClassW(&dummyWinClass))
 		{
-			std::cout << "Failed to register dummy class.\n";
-			return false;
+			throw GraphicsException("Failed to register dummy class.");
 		}
 
 		HWND dummyWindow = CreateWindowExW(
@@ -61,40 +61,34 @@ namespace odin
 		int pixelFormat = ChoosePixelFormat(dummyDc, &pfd);
 		if (!pixelFormat)
 		{
-			std::cout << "Failed to find a suitable pixel format.\n";
-			return false;
+			throw GraphicsException("Failed to find a suitable pixel format.");
 		}
 
 		if (!SetPixelFormat(dummyDc, pixelFormat, &pfd))
 		{
-			std::cout << "Failed to set pixel format\n";
-			return false;
+			throw GraphicsException("Failed to set pixel format");
 		}
 
 
 		HGLRC dummyContext = wglCreateContext(dummyDc);
 		if (!dummyContext)
 		{
-			std::cout << "Failed to create dummy context.\n";
-			return false;
+			throw GraphicsException("Failed to create dummy context.");
 		}
 
 		if (!wglMakeCurrent(dummyDc, dummyContext))
 		{
-			std::cout << "Failed to activate dummy context\n";
-			return false;
+			throw GraphicsException("Failed to activate dummy context.");
 		}
 
 		if (!gladLoadWGLLoader((GLADloadproc)getFunction, dummyDc))
 		{
-			std::cout << "Failed to initialize GLAD WGL.\n";
-			return false;
+			throw GraphicsException("Failed to initialize GLAD WGL.");
 		}
 
 		if (!gladLoadGLLoader((GLADloadproc)getFunction))
 		{
-			std::cout << "Failder to initialize GLAD GL.\n";
-			return false;
+			throw GraphicsException("Failed to initialize GLAD GL.");
 		}
 
 		wglMakeCurrent(dummyDc, 0);
@@ -104,7 +98,7 @@ namespace odin
 		return true;
 	}
 
-	bool WglContext::create(Window& window, const OpenglContextInfo& info)
+	bool WglContext::create(Window& window, const GraphicsInfo& info)
 	{
 		auto& win32Window = window.getSystemWindow();
 		auto dc = win32Window.getDC();
@@ -125,13 +119,12 @@ namespace odin
 		wglChoosePixelFormatARB(dc, pixelFormatAttribs, 0, 1, &pixelFormat, &formatsAvailable);
 		if (formatsAvailable == 0)
 		{
-			std::cout << "Failed to set OpenGL pixel format.\n";
-			return false;
+			throw GraphicsException("Failed to set OpenGL pixel format.");
 		}
 		
 		int contextAttribs[]{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, info.majorVersion,
-			WGL_CONTEXT_MINOR_VERSION_ARB, info.minorVersion,
+			WGL_CONTEXT_MAJOR_VERSION_ARB, info.opengl.majorVersion,
+			WGL_CONTEXT_MINOR_VERSION_ARB, info.opengl.minorVersion,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 			0
 		};
@@ -141,29 +134,23 @@ namespace odin
 
 		if (!SetPixelFormat(dc, pixelFormat, &pfd))
 		{
-			std::cout << "Failed to set Opengl pixel format.\n";
-			return 0;
+			throw GraphicsException("Failed to set Opengl pixel format.");
 		}
 		
 		m_context = wglCreateContextAttribsARB(dc, 0, contextAttribs);
 		if (!m_context)
 		{
-			std::cout << "Failed to create OpenGL context.\n";
-			return false;
+			throw GraphicsException("Failed to create OpenGL context.");
 		}
 
-		return true;
-	}
-
-	bool WglContext::makeCurrent(Window& window)
-	{
 		if (!wglMakeCurrent(window.getSystemWindow().getDC(), m_context))
 		{
-			std::cout << "Failed to activate context.\n";
-			return false;
+			throw GraphicsException("Failed to activate context.");
 		}
+
 		return true;
 	}
+
 
 	void WglContext::destroy()
 	{
@@ -173,8 +160,8 @@ namespace odin
 		}
 	}
 
-	void WglContext::swapBuffers(Window& window)
+	void WglContext::swapBuffers()
 	{
-		SwapBuffers(window.getSystemWindow().getDC());
+		SwapBuffers(m_window->getSystemWindow().getDC());
 	}
 }

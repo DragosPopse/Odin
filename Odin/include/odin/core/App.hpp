@@ -1,14 +1,18 @@
-#pragma once
+#ifndef ODIN_APP_HPP
+#define ODIN_APP_HPP
 
 #include <odin/Config.hpp>
 #include <odin/window/Window.hpp>
 #include <odin/core/AppInfo.hpp>
 #include <odin/core/LayerManager.hpp>
-#include <odin/graphics/opengl/OpenglContext.hpp>
+#include <odin/graphics/GraphicsContext.hpp>
+
 #include <memory>
 #include <odin/debug/Logger.hpp>
 #include <odin/core/Time.hpp>
 
+#include <odin/graphics/opengl/OpenglContext.hpp>
+#include <odin/graphics/vk/VulkanContext.hpp>
 int main(int argc, char** argv);
 
 namespace odin
@@ -17,7 +21,7 @@ namespace odin
 	{
 	public:
 		App();
-		virtual ~App() = default;
+		virtual ~App();
 
 		void create(const AppInfo& app);
 
@@ -39,10 +43,15 @@ namespace odin
 
 		Window m_window;
 		LayerManager m_layerManager;
-		OpenglContext m_glContext;
+		GraphicsContext m_graphicsContext;
 		Logger m_systemLogger;
 		Time m_fixedDeltaTime;
+
+		bool m_running = false;
 	};
 
 	App* CreateApp();
 }
+
+
+#endif

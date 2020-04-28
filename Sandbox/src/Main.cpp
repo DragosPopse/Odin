@@ -39,7 +39,6 @@ public:
 			return false;
 
 		case odin::Event::Type::WindowResized:
-			glViewport(0, 0, ev.size.width, ev.size.height);
 			return false;
 		}
 
@@ -61,15 +60,15 @@ public:
 	Application()
 	{
 		odin::AppInfo app;
+		app.name = "Sandbox";
 		app.window.width = 600;
 		app.window.height = 600;
 		app.window.title = L"Odin Testone";
 		app.window.style = odin::mask(odin::Window::Style::Overlapped);
 		app.entryLayer.reset(new EntryLayer());
-		app.opengl.majorVersion = 3;
-		app.opengl.minorVersion = 3;
+		//app.graphics.opengl.majorVersion = 3;
+		//app.graphics.opengl.minorVersion = 3;
 		create(app);
-		glViewport(0, 0, app.window.width, app.window.height);
 	}
 };
 

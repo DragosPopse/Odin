@@ -2,11 +2,14 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <odin/core/StopWatch.hpp>
+#include <vulkan/vulkan.h>
+#include <odin/graphics/vk/VulkanContext.hpp>
+#include <odin/window/Window.hpp>
 
 
 namespace odin
 {
-
+	
 
 	App* App::s_instance = nullptr;
 
@@ -31,8 +34,8 @@ namespace odin
 		m_fixedDeltaTime = 1s / static_cast<float>(info.fixedTicksPerSecond);
 
 		m_systemLogger(odin::Logger::Level::Debug, concat("Fixed Delta: ", m_fixedDeltaTime.count()));
-
-		OpenglContext::init();
+	
+		GraphicsContext::init();
 
 		m_window.setEventCallback(
 			[this](const Event& ev)
@@ -41,12 +44,14 @@ namespace odin
 			});
 		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
-
+		uint32_t extensions = 0;
+		vkEnumerateInstanceExtensionProperties(nullptr, &extensions, nullptr);
+		m_systemLogger(Logger::Level::Info, concat(extensions, " Extensions"));
 		m_systemLogger(odin::Logger::Level::Debug, "Window created");
 
-		m_glContext.create(m_window, info.opengl);
-		m_glContext.makeCurrent(m_window);
-		m_systemLogger(odin::Logger::Level::Debug, "OpenGL Context created");
+		info.graphics.vulkan.appName = info.name;
+
+		m_graphicsContext.create(m_window, info.graphics);
 
 		m_layerManager.push(info.entryLayer);
 		m_layerManager.applyChanges();
@@ -56,7 +61,8 @@ namespace odin
 	{
 		StopWatch clock;
 		Time dt;
-		while (m_window.isOpen())
+		m_running = true;
+		while (m_running)
 		{
 			m_window.processEvents();
 
@@ -69,16 +75,22 @@ namespace odin
 			}
 
 
-			glClearColor(0, 0, 0, 1);
+			//glClearColor(0, 0, 0, 1);
 			m_layerManager.draw();
-			glClear(GL_COLOR_BUFFER_BIT);
-			OpenglContext::swapBuffers(m_window);
+			//glClear(GL_COLOR_BUFFER_BIT);
+			m_graphicsContext.swapBuffers();
 
 			m_layerManager.applyChanges();
 			if (m_layerManager.empty())
 			{
-				m_window.close();
+				m_running = false;
 			}
 		}
+	}
+
+	App::~App()
+	{
+		m_graphicsContext.destroy();
+		m_window.close();
 	}
 }
