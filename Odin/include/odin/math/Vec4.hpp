@@ -1,38 +1,40 @@
-#ifndef ODIN_VEC2_HPP
-#define ODIN_VEC2_HPP
+#ifndef ODIN_VEC4_HPP
+#define ODIN_VEC4_HPP
 
 #include <odin/Config.hpp>
-#include <type_traits>
 #include <odin/math/Vec.hpp>
-#include <algorithm>
 
 
 namespace odin
 {
 	template <typename T>
-	struct Vec<2, T>
+	struct Vec<4, T>
 	{
-		static_assert(std::is_arithmetic_v<T>, "Vec2<T>: T is not arithmetic");
+		static_assert(std::is_arithmetic_v<T>, "Vec4<T>: T is not arithmetic");
 
-		static const size_t size = 2;
+		static const size_t size = 4;
 
 		T x = static_cast<T>(0);
 		T y = static_cast<T>(0);
+		T z = static_cast<T>(0);
+		T w = static_cast<T>(0);
 
 	private:
-		using ElementType = T Vec<2, T>::* const;
+		using ElementType = T Vec<4, T>::* const;
 		static const ElementType m_elements[size];
 
-
 	public:
-		constexpr Vec(T paramX, T paramY) :
+		constexpr Vec(T paramX, T paramY, T paramZ, T paramW) :
 			x(paramX),
-			y(paramY)
+			y(paramY),
+			z(paramZ),
+			w(paramW)
 		{
 		}
 		constexpr Vec() = default;
 		constexpr Vec(const Vec& other) = default;
 		constexpr Vec(Vec&& other) = default;
+		~Vec() = default;
 
 		template <typename VecType, typename... Args, typename = std::enable_if_t<std::is_class_v<VecType>>>
 		constexpr Vec(const VecType& other, Args... values) :
@@ -56,29 +58,29 @@ namespace odin
 		{
 			x = other.x;
 			y = other.y;
+			z = other.z;
 			return *this;
 		}
 
-		/*
-			Cross product
-		*/
+
 		T operator*(const Vec& other)
 		{
 			T sum = static_cast<T>(0);
 			sum += x * other.x;
 			sum += y * other.y;
+			sum += z * other.z;
 		}
 
 
 		Vec operator*(T scalar)
 		{
-			return Vec(x * scalar, y * scalar);
+			return Vec(x * scalar, y * scalar, z * scalar, w * scalar);
 		}
 
 
 		Vec operator-()
 		{
-			return Vec(-x, -y);
+			return Vec(-x, -y, -z, -w);
 		}
 
 
@@ -94,25 +96,28 @@ namespace odin
 		}
 
 
-		template <typename To, typename = std::enable_if_t<std::is_convertible_v<T, To>>>
-		operator Vec<2, To>()
+
+		template <typename To>
+		operator Vec<4, To>()
 		{
-			return Vec<2, To>(
+			return Vec<4, To>(
 				static_cast<To>(x),
-				static_cast<To>(y));
+				static_cast<To>(y),
+				static_cast<To>(z));
 		}
 
 
-		bool operator==(const Vec<2, T>& other)
+		bool operator==(const Vec& other)
 		{
-			return x == other.x && y == other.y;
+			return x == other.x && y == other.y && z == other.z;
 		}
 
 
-		bool operator!=(const Vec<2, T>& other)
+		bool operator!=(const Vec& other)
 		{
-			return !(x == other.x && y == other.y);
+			return !(x == other.x && y == other.y && z == other.z);
 		}
+
 
 	private:
 		template <typename First, typename... Args>
@@ -130,28 +135,30 @@ namespace odin
 		{
 			if (i < size)
 			{
-				(*this)[i] = first;
+				(*this)[i] = static_cast<T>(first);
 			}
 		}
 
 		void initHelper(size_t i)
 		{
 		}
+
 	};
 
 	template <typename T>
-	const typename Vec<2, T>::ElementType Vec<2, T>::m_elements[Vec<2, T>::size] = {
-		&Vec<2, T>::x,
-		&Vec<2, T>::y
+	const typename Vec<4, T>::ElementType Vec<4, T>::m_elements[Vec<4, T>::size] = {
+		&Vec<4, T>::x,
+		&Vec<4, T>::y,
+		&Vec<4, T>::z,
+		&Vec<4, T>::w
 	};
 
 	template <typename T>
-	using Vec2 = Vec<2, T>;
-	using Vec2f = Vec2<float>;
-	using Vec2i = Vec2<int32_t>;
-	using Vec2u = Vec2<uint32_t>;
-	using Vec2d = Vec2<double>;
+	using Vec4 = Vec<4, T>;
+	using Vec4f = Vec4<float>;
+	using Vec4i = Vec4<int32_t>;
+	using Vec4u = Vec4<uint32_t>;
+	using Vec4d = Vec4<double>;
 }
-
 
 #endif

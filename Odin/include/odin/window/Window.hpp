@@ -5,6 +5,7 @@
 #include <odin/window/Event.hpp>
 #include <memory>
 #include <odin/window/WindowInfo.hpp>
+#include <odin/math/Vec2.hpp>
 
 
 namespace odin
@@ -35,6 +36,7 @@ namespace odin
 		bool isOpen() const;
 		void close();
 		void setEventCallback(EventCallbackFn callback);
+		Vec2u getSize() const;
 		Impl* getSystemWindow();
 
 	private:

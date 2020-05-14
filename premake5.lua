@@ -1,6 +1,6 @@
 IncludeDir = {}
 LibDirs = {}
-RenderAPI = "Vulkan"
+RenderAPI = "OpenGL"
 
 if os.target() == "windows" then
     glLib = "opengl32"
@@ -21,7 +21,6 @@ workspace "Odin"
         "Debug", 
         "Release"
     }
-
 
     filter {"system:windows"}
         defines {

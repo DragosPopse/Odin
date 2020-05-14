@@ -41,7 +41,7 @@ namespace odin
 
 	//to be added in other header
 	template <typename... Args>
-	constexpr std::string concat(Args... args)
+	std::string concat(Args&&... args)
 	{
 		std::stringstream ss;
 		(ss << ... << args);

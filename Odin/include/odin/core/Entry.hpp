@@ -7,10 +7,11 @@
 namespace odin
 {
 	class App;
-	App* CreateApp();
+	class Layer;
+	App* createApp();
 }
 
-extern odin::App* odin::CreateApp();
+extern odin::App* odin::createApp();
 
 #if defined(ODIN_PLATFORM_WINDOWS)
 

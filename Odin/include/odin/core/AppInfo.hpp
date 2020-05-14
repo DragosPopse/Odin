@@ -33,14 +33,12 @@ namespace odin
 			Display window
 		*/
 		WindowInfo window;
-		/*
-			First layer that gets pushed into the stack
-		*/
-		std::shared_ptr<Layer> entryLayer;
+
 		/*
 			OpenGL context settings
 		*/
 		GraphicsInfo graphics;
+
 		/*
 			Number of times the fixedUpdate() will occur per second
 		*/

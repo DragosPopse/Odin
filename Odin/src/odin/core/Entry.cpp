@@ -25,10 +25,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	(void)nCmdShow;
 	createConsole();
 	odin::App::s_win32Instance = hInstance;
-	auto* app = odin::CreateApp();
+	auto* app = odin::createApp();
 	app->Run();
 	delete app;
-	while (true);
+	constexpr bool keepConsoleOpen = false;
+	while (keepConsoleOpen);
 	return 0;
 }
 

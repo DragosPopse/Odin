@@ -5,6 +5,7 @@
 #include <vulkan/vulkan.h>
 #include <odin/graphics/vk/VulkanContext.hpp>
 #include <odin/window/Window.hpp>
+#include <odin/graphics/Renderer.hpp>
 
 
 namespace odin
@@ -53,7 +54,9 @@ namespace odin
 
 		m_graphicsContext.create(m_window, info.graphics);
 
-		m_layerManager.push(info.entryLayer);
+		Renderer::init();
+		std::shared_ptr<Layer> layerPtr(createEntryLayer());
+		m_layerManager.push(std::move(layerPtr));
 		m_layerManager.applyChanges();
 	}
 
@@ -75,9 +78,8 @@ namespace odin
 			}
 
 
-			//glClearColor(0, 0, 1, 1);
-			//glClear(GL_COLOR_BUFFER_BIT);
-
+			
+			Renderer::clear();
 			m_layerManager.draw();
 			m_graphicsContext.swapBuffers();
 

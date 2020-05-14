@@ -20,6 +20,8 @@ namespace odin
 		App();
 		virtual ~App();
 
+		virtual Layer* createEntryLayer() = 0;
+
 		void create(const AppInfo& app);
 
 		inline Logger& getSystemLogger() { return m_systemLogger; }

@@ -4,12 +4,45 @@
 #include <glad/glad.h>
 #include <odin/debug/Logger.hpp>
 #include <fstream>
+#include <odin/graphics/Renderer.hpp>
+#include <odin/graphics/Shader.hpp>
+#include <odin/math/Vec2.hpp>
+#include <odin/math/Vec3.hpp>
+#include <odin/math/Vec4.hpp>
+#include <odin/math/Mat2.hpp>
+#include <odin/math/Mat3.hpp>
+#include <odin/math/Mat4.hpp> 
+#include <odin/math/Mat.hpp>
 
+template <size_t ROWS, size_t COLS, typename T>
+void printMat(const odin::Mat<ROWS, COLS, T>& mat)
+{
+	for (size_t i = 0; i < mat.rows; i++)
+	{
+		for (size_t j = 0; j < mat.columns; j++)
+		{
+			std::cout << mat[i][j] << ' ';
+		}
+		std::cout << '\n';
+	}
+}
+
+template <size_t SIZE, typename T>
+void printVec(const odin::Vec<SIZE, T>& vec)
+{
+	for (size_t i = 0; i < vec.size; i++)
+	{
+		std::cout << vec[i] << ' ';
+	}
+	std::cout << '\n';
+}
 
 class EntryLayer : 
 	public odin::Layer
 {
 	odin::Logger m_log;
+	odin::VertexBuffer m_vb;
+	odin::Shader m_shader;
 
 public:
 	EntryLayer()
@@ -18,11 +51,19 @@ public:
 			odin::Event::Type::All
 		);
 		m_log.setStream(std::cout);
-		m_log["tag"] = []() {
-			return "gnjergneiugaeirsg";
-		};
 		m_log.useLocalTime(true);
 		m_log.setFormat("[{mday}/{nmon}/{year} {hour}:{min}:{sec}] [{lvl}] {0}");
+
+
+		m_shader.loadFromFile("assets/shader.vert", odin::Shader::Type::Vertex);
+		m_shader.loadFromFile("assets/shader.frag", odin::Shader::Type::Fragment);
+		m_shader.link();
+		odin::Renderer::setClearColor(odin::Color(0, 124, 124, 255));
+
+
+		
+		//m_log(odin::Logger::Level::Debug, v2[1]);
+		
 	}
 
 	bool onEvent(const odin::Event& ev) override
@@ -47,7 +88,15 @@ public:
 
 	bool draw() override
 	{
-		
+		odin::Mat4f transform({ {
+			{0.5f, 0.f, 0.f, 0.3f},
+			{0.f, 0.5f, 0.f, 0.f},
+			{0.f, 0.f, 1.f, 0},
+			{0.f, 0.f, 0.f, 1.f}
+		} });
+		m_shader.bind();
+		m_shader.setMat4("u_Transform", transform);
+		odin::Renderer::draw();
 		return false;
 	}
 };
@@ -65,15 +114,19 @@ public:
 		app.window.height = 600;
 		app.window.title = L"Odin Testone";
 		app.window.style = odin::mask(odin::Window::Style::Overlapped);
-		app.entryLayer.reset(new EntryLayer());
 		//app.graphics.opengl.majorVersion = 3;
 		//app.graphics.opengl.minorVersion = 3;
 		create(app);
 	}
+
+	odin::Layer* createEntryLayer() final
+	{
+		return new EntryLayer();
+	}
 };
 
 
-odin::App* odin::CreateApp()
+odin::App* odin::createApp()
 {
 	return new Application();
 }
