@@ -85,8 +85,20 @@ namespace odin
 	}
 
 
-	void Shader::setMat4(const std::string& name, const Mat4f& mat)
+	void Shader::setMat4(const std::string& name, const Mat4f& value)
 	{
-		m_impl->setMat4(name, mat); 
+		m_impl->setMat4(name, value);
+	}
+	
+
+	void Shader::setVec4(const std::string& name, const Vec4f& value)
+	{
+		m_impl->setVec4(name, value);
+	}
+
+
+	void Shader::setFloat(const std::string& name, float value)
+	{
+		m_impl->setFloat(name, value);
 	}
 }

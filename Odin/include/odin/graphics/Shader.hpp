@@ -59,7 +59,9 @@ namespace odin
 
 		void bind() const;
 
-		void setMat4(const std::string& name, const Mat4f& mat);
+		void setMat4(const std::string& name, const Mat4f& value);
+		void setVec4(const std::string& name, const Vec4f& value);
+		void setFloat(const std::string& name, float value);
 		
 	private:
 		std::unique_ptr<Impl> m_impl;

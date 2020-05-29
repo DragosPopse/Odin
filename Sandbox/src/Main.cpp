@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <odin/core/Entry.hpp>
 #include <odin/core/App.hpp>
 #include <glad/glad.h>
@@ -13,6 +13,11 @@
 #include <odin/math/Mat3.hpp>
 #include <odin/math/Mat4.hpp> 
 #include <odin/math/Mat.hpp>
+#include <odin/graphics/Texture.hpp>
+#include <odin/core/Time.hpp>
+#include <odin/core/StopWatch.hpp>
+
+ODIN_USE_TIME_LITERALS;
 
 template <size_t ROWS, size_t COLS, typename T>
 void printMat(const odin::Mat<ROWS, COLS, T>& mat)
@@ -43,6 +48,8 @@ class EntryLayer :
 	odin::Logger m_log;
 	odin::VertexBuffer m_vb;
 	odin::Shader m_shader;
+	odin::Texture m_texture;
+	odin::Time m_elapsedTime = 0s;
 
 public:
 	EntryLayer()
@@ -60,7 +67,8 @@ public:
 		m_shader.link();
 		odin::Renderer::setClearColor(odin::Color(0, 124, 124, 255));
 
-
+		m_texture.loadFromFile("assets/sstest.png");
+		m_texture.bind();
 		
 		//m_log(odin::Logger::Level::Debug, v2[1]);
 		
@@ -86,6 +94,14 @@ public:
 		return true;
 	}
 
+
+	bool update(odin::Time time) override
+	{
+		m_elapsedTime += time;
+		return true;
+	}
+
+
 	bool draw() override
 	{
 		odin::Mat4f transform({ {
@@ -94,8 +110,13 @@ public:
 			{0.f, 0.f, 1.f, 0},
 			{0.f, 0.f, 0.f, 1.f}
 		} });
+
+		odin::Vec4f texTransform(0.f, 0.f, 0.5f, 1.f);
 		m_shader.bind();
+		m_texture.bind(); 
 		m_shader.setMat4("u_Transform", transform);
+		m_shader.setVec4("u_TexTransform", texTransform);
+		m_shader.setFloat("u_ElapsedTime", m_elapsedTime.count());
 		odin::Renderer::draw();
 		return false;
 	}
@@ -112,7 +133,7 @@ public:
 		app.name = "Sandbox";
 		app.window.width = 600;
 		app.window.height = 600;
-		app.window.title = L"Odin Testone";
+		app.window.title = L"ᚠ ᚡ ᚢ ᚣ ᚤ ᚥ ᚦ ᚧ ᚨ ᚩ";
 		app.window.style = odin::mask(odin::Window::Style::Overlapped);
 		//app.graphics.opengl.majorVersion = 3;
 		//app.graphics.opengl.minorVersion = 3;
