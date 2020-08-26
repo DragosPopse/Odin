@@ -5,7 +5,7 @@
 #include <odin/window/Window.hpp>
 #include <odin/window/WindowInfo.hpp>
 #include <odin/window/Event.hpp>
-#include <odin/math/Vec2.hpp>
+#include <gmath/details/vec2.hpp>
 
 
 namespace odin
@@ -22,7 +22,7 @@ namespace odin
 		void create(const WindowInfo& info);
 		void destroy();
 		HWND getHandle() const;
-		Vec2u getSize() const;
+		gm::Vec2u getSize() const;
 		void processEvents();
 
 		HDC getDC() const;
@@ -39,7 +39,7 @@ namespace odin
 	private:
 		HWND m_window = 0;
 		bool m_resizing = false;
-		Vec2u m_lastSize = Vec2u(0u, 0u);
+		gm::Vec2u m_lastSize = gm::Vec2u(0u, 0u);
 		HDC m_dc = 0;
 		Window* m_apiWindow;
 	};

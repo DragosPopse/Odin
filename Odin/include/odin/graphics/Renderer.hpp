@@ -5,7 +5,7 @@
 #include <odin/graphics/VertexBuffer.hpp>
 #include <odin/graphics/IndexBuffer.hpp>
 #include <odin/graphics/Color.hpp>
-#include <odin/math/Mat.hpp>
+#include <gmath/mat.hpp>
 #include <odin/graphics/Shader.hpp>
 
 namespace odin

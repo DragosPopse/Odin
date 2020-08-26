@@ -49,7 +49,7 @@ namespace odin
 		ev.window->close();
 	}
 
-	Vec2u Window::getSize() const
+	gm::Vec2u Window::getSize() const
 	{
 		return m_impl->getSize();
 	}

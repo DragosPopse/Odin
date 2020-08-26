@@ -47,7 +47,8 @@ workspace "Odin"
 
         includedirs {
             "%{prj.location}/include",
-            "%{prj.location}/src"
+            "%{prj.location}/src",
+            "%{wks.location}/external/GameMath/include"
         }
 
         if RenderAPI == "OpenGL" then
@@ -144,7 +145,8 @@ workspace "Odin"
 
         includedirs {
             "%{prj.name}/include",
-            "Odin/include"
+            "Odin/include",
+            "%{wks.location}/external/GameMath/include"
         }
 
         filter "system:windows"

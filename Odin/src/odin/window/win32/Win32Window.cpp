@@ -195,7 +195,7 @@ namespace odin
 		return m_window;
 	}
 
-	Vec2u Window::Impl::getSize() const
+	gm::Vec2u Window::Impl::getSize() const
 	{
 		RECT rect;
 		GetClientRect(m_window, &rect);

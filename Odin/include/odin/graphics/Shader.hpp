@@ -3,10 +3,8 @@
 
 #include <odin/Config.hpp>
 
-#include <odin/math/Mat.hpp>
-#include <odin/math/Vec2.hpp>
-#include <odin/math/Vec3.hpp>
-#include <odin/math/Vec4.hpp>
+#include <gmath/mat.hpp>
+#include <gmath/vec.hpp>
 
 
 namespace odin
@@ -59,8 +57,8 @@ namespace odin
 
 		void bind() const;
 
-		void setMat4(const std::string& name, const Mat4f& value);
-		void setVec4(const std::string& name, const Vec4f& value);
+		void setMat4(const std::string& name, const gm::Mat4f& value);
+		void setVec4(const std::string& name, const gm::Vec4f& value);
 		void setFloat(const std::string& name, float value);
 		
 	private:

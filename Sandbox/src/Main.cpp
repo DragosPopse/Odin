@@ -5,13 +5,8 @@
 #include <fstream>
 #include <odin/graphics/Renderer.hpp>
 #include <odin/graphics/Shader.hpp>
-#include <odin/math/Vec2.hpp>
-#include <odin/math/Vec3.hpp>
-#include <odin/math/Vec4.hpp>
-#include <odin/math/Mat2.hpp>
-#include <odin/math/Mat3.hpp>
-#include <odin/math/Mat4.hpp> 
-#include <odin/math/Mat.hpp>
+#include <gmath/mat.hpp>
+#include <gmath/vec.hpp>
 #include <odin/graphics/Texture.hpp>
 #include <odin/core/Time.hpp>
 #include <odin/core/StopWatch.hpp>
@@ -19,7 +14,7 @@
 ODIN_USE_TIME_LITERALS;
 
 template <size_t ROWS, size_t COLS, typename T>
-void printMat(const odin::Mat<ROWS, COLS, T>& mat)
+void printMat(const gm::Mat<T, ROWS, COLS>& mat)
 {
 	for (size_t i = 0; i < mat.rows; i++)
 	{
@@ -32,7 +27,7 @@ void printMat(const odin::Mat<ROWS, COLS, T>& mat)
 }
 
 template <size_t SIZE, typename T>
-void printVec(const odin::Vec<SIZE, T>& vec)
+void printVec(const gm::Vec<T, SIZE>& vec)
 {
 	for (size_t i = 0; i < vec.size; i++)
 	{
@@ -97,14 +92,14 @@ public:
 
 	bool draw() override
 	{
-		odin::Mat4f transform({ {
+		gm::Mat4f transform({ {
 			{0.5f, 0.f, 0.f, 0.3f},
 			{0.f, 0.5f, 0.f, 0.f},
 			{0.f, 0.f, 1.f, 0},
 			{0.f, 0.f, 0.f, 1.f}
 		} });
 
-		odin::Vec4f texTransform(0.f, 0.f, 0.5f, 1.f);
+		gm::Vec4f texTransform(0.f, 0.f, 0.5f, 1.f);
 		m_shader.bind();
 		m_texture.bind(); 
 		m_shader.setMat4("u_Transform", transform);

@@ -102,14 +102,14 @@ namespace odin
 	}
 
 
-	void Shader::Impl::setMat4(const std::string& name, const Mat4f& value)
+	void Shader::Impl::setMat4(const std::string& name, const gm::Mat4f& value)
 	{
 		uint32_t location = glGetUniformLocation(m_program, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_TRUE, value.data());
 	}
 
 
-	void Shader::Impl::setVec4(const std::string& name, const Vec4f& value)
+	void Shader::Impl::setVec4(const std::string& name, const gm::Vec4f& value)
 	{
 		uint32_t location = glGetUniformLocation(m_program, name.c_str());
 		glUniform4f(location, value.x, value.y, value.z, value.w);

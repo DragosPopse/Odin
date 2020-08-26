@@ -3,15 +3,14 @@
 
 #include <odin/Config.hpp>
 #include <odin/graphics/Color.hpp>
-#include <odin/math/Vec2.hpp>
-#include <odin/math/Vec3.hpp>
+#include <gmath/vec.hpp>
 
 namespace odin
 {
 	struct Vertex
 	{
-		Vec3f position;
-		Vec2f texCoords;
+		gm::Vec3f position;
+		gm::Vec2f texCoords;
 		//Color color;
 	};
 }
