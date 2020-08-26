@@ -39,17 +39,12 @@ namespace odin
 			break;
 
 		default:
-			App::get().getSystemLogger()(odin::Logger::Level::Error, 
-				concat("Unsuported number of channels: ", channels));
 			return false;
 		}
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_base.m_width, m_base.m_height, 0, format, GL_UNSIGNED_BYTE, data);
 		//glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		App::get().getSystemLogger()(odin::Logger::Level::Info,
-			concat("Generated texture with ", channels, " channels"));
 
 		return true;
 	}

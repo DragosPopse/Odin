@@ -8,7 +8,6 @@
 #include <odin/graphics/GraphicsContext.hpp>
 
 #include <memory>
-#include <odin/debug/Logger.hpp>
 #include <odin/core/Time.hpp>
 
 
@@ -23,8 +22,6 @@ namespace odin
 		virtual Layer* createEntryLayer() = 0;
 
 		void create(const AppInfo& app);
-
-		inline Logger& getSystemLogger() { return m_systemLogger; }
 
 		inline static App& get() { return *s_instance; }
 
@@ -43,7 +40,6 @@ namespace odin
 		Window m_window;
 		LayerManager m_layerManager;
 		GraphicsContext m_graphicsContext;
-		Logger m_systemLogger;
 		Time m_fixedDeltaTime;
 
 		bool m_running = false;

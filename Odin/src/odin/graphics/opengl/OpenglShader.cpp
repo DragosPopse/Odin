@@ -20,8 +20,6 @@ namespace odin
 		std::ifstream file(filename, std::ios::ate);
 		if (!file.is_open())
 		{
-			App::get().getSystemLogger()(odin::Logger::Level::Error,
-				"Failed to open shader file.");
 			return false;
 		}
 		size_t size = (size_t)file.tellg();
@@ -55,8 +53,6 @@ namespace odin
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, MAX_OPENGL_LOG_BUFFER_LENGTH, nullptr, log);
-			App::get().getSystemLogger()(odin::Logger::Level::Error,
-				concat(filename, ": ",log));
 			return false;
 		}
 		
@@ -79,8 +75,6 @@ namespace odin
 		if (!success)
 		{
 			glGetProgramInfoLog(m_program, MAX_OPENGL_LOG_BUFFER_LENGTH, nullptr, log);
-			App::get().getSystemLogger()(Logger::Level::Error,
-				log);
 			return false;
 		}  
 

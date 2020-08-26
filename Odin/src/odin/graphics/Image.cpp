@@ -25,7 +25,6 @@ namespace odin
 		m_data = stbi_load(file.c_str(), &m_width, &m_height, &m_numberOfChannels, 0);
 		if (!m_data)
 		{
-			App::get().getSystemLogger()(odin::Logger::Level::Error, concat("Failed to load ", file));
 			return false;
 		}
 		return true;

@@ -2,7 +2,6 @@
 #include <odin/core/Entry.hpp>
 #include <odin/core/App.hpp>
 #include <glad/glad.h>
-#include <odin/debug/Logger.hpp>
 #include <fstream>
 #include <odin/graphics/Renderer.hpp>
 #include <odin/graphics/Shader.hpp>
@@ -45,7 +44,6 @@ void printVec(const odin::Vec<SIZE, T>& vec)
 class EntryLayer : 
 	public odin::Layer
 {
-	odin::Logger m_log;
 	odin::VertexBuffer m_vb;
 	odin::Shader m_shader;
 	odin::Texture m_texture;
@@ -57,10 +55,6 @@ public:
 		registerEvents(
 			odin::Event::Type::All
 		);
-		m_log.setStream(std::cout);
-		m_log.useLocalTime(true);
-		m_log.setFormat("[{mday}/{nmon}/{year} {hour}:{min}:{sec}] [{lvl}] {0}");
-
 
 		m_shader.loadFromFile("assets/shader.vert", odin::Shader::Type::Vertex);
 		m_shader.loadFromFile("assets/shader.frag", odin::Shader::Type::Fragment);
@@ -84,7 +78,6 @@ public:
 
 		case odin::Event::Type::KeyRepeated:
 		case odin::Event::Type::KeyPressed:
-			m_log(odin::Logger::Level::Info, "Pressed");
 			return false;
 
 		case odin::Event::Type::WindowResized:
@@ -96,7 +89,7 @@ public:
 
 
 	bool update(odin::Time time) override
-	{
+	{ 
 		m_elapsedTime += time;
 		return true;
 	}

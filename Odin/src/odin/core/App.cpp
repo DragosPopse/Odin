@@ -28,13 +28,8 @@ namespace odin
 	{
 		ODIN_USE_TIME_LITERALS;
 
-		m_systemLogger.setStream(*info.systemLogStream);
-		m_systemLogger.setFormat(info.systemLogFormat);
-		m_systemLogger.useLocalTime(true);
 
 		m_fixedDeltaTime = 1s / static_cast<float>(info.fixedTicksPerSecond);
-
-		m_systemLogger(odin::Logger::Level::Debug, concat("Fixed Delta: ", m_fixedDeltaTime.count()));
 	
 		GraphicsContext::init();
 
@@ -48,7 +43,6 @@ namespace odin
 		//uint32_t extensions = 0;
 		//vkEnumerateInstanceExtensionProperties(nullptr, &extensions, nullptr);
 		//m_systemLogger(Logger::Level::Info, concat(extensions, " Extensions"));
-		m_systemLogger(odin::Logger::Level::Debug, "Window created");
 
 		info.graphics.vulkan.appName = info.name;
 
