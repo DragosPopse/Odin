@@ -2,14 +2,14 @@
 #define ODIN_LAYER_MANAGER_HPP
 
 #include <memory>
-#include <odin/core/Layer.hpp>
+#include <odin/core/Scene.hpp>
 #include <odin/window/Event.hpp>
 #include <vector>
 #include <queue>
 
 namespace odin
 {
-	class LayerManager
+	class SceneManager
 	{
 	public:
 		struct StackChange
@@ -21,20 +21,20 @@ namespace odin
 				Clear
 			};
 
-			Layer::Ptr layer;
+			Scene::Ptr layer;
 			StackChange::Type type;
 
-			StackChange(StackChange::Type changeType, Layer::Ptr changedLayer = nullptr) :
+			StackChange(StackChange::Type changeType, Scene::Ptr changedLayer = nullptr) :
 				layer(changedLayer),
 				type(changeType)
 			{
 			}
 		};
 
-		LayerManager() = default;
-		~LayerManager() = default;
+		SceneManager() = default;
+		~SceneManager() = default;
 
-		void push(Layer::Ptr layer);
+		void push(Scene::Ptr layer);
 		void pop();
 		void clear();
 
@@ -49,7 +49,7 @@ namespace odin
 		void dispatchEvent(const Event& ev);
 		
 	private:
-		std::vector<Layer::Ptr> m_stack;
+		std::vector<Scene::Ptr> m_stack;
 		std::queue<StackChange> m_pendingChanges;
 	};
 }

@@ -8,15 +8,15 @@
 
 namespace odin
 {
-	class LayerManager;
+	class SceneManager;
 
-	class Layer
+	class Scene
 	{
 	public:
-		using Ptr = std::shared_ptr<Layer>;
+		using Ptr = std::shared_ptr<Scene>;
 
-		Layer() = default;
-		virtual ~Layer() = default;
+		Scene() = default;
+		virtual ~Scene() = default;
 
 		virtual bool onEvent(const Event&) { return true; }
 		virtual bool update(Time) { return false; }
@@ -32,15 +32,15 @@ namespace odin
 			m_eventMask = mask(args...);
 		}
 
-		void requestPush(Layer::Ptr layer);  
+		void requestPush(Scene::Ptr layer);
 		void requestPop();
 		void requestClear();
 
 	private:
-		friend class LayerManager;
+		friend class SceneManager;
 
 
-		LayerManager* m_layerManager = nullptr;
+		SceneManager* m_sceneManager = nullptr;
 		uint32_t m_eventMask = 0;
 	};
 }

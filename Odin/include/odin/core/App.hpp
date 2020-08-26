@@ -4,7 +4,7 @@
 #include <odin/Config.hpp>
 #include <odin/window/Window.hpp>
 #include <odin/core/AppInfo.hpp>
-#include <odin/core/LayerManager.hpp>
+#include <odin/core/SceneManager.hpp>
 #include <odin/graphics/GraphicsContext.hpp>
 
 #include <memory>
@@ -19,7 +19,7 @@ namespace odin
 		App();
 		virtual ~App();
 
-		virtual Layer* createEntryLayer() = 0;
+		virtual Scene* createEntryScene() = 0;
 
 		void create(const AppInfo& app);
 
@@ -38,7 +38,7 @@ namespace odin
 #endif
 
 		Window m_window;
-		LayerManager m_layerManager;
+		SceneManager m_sceneManager;
 		GraphicsContext m_graphicsContext;
 		Time m_fixedDeltaTime;
 

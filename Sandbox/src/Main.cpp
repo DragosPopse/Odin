@@ -37,7 +37,7 @@ void printVec(const gm::Vec<T, SIZE>& vec)
 }
 
 class EntryLayer : 
-	public odin::Layer
+	public odin::Scene
 {
 	odin::VertexBuffer m_vb;
 	odin::Shader m_shader;
@@ -128,7 +128,7 @@ public:
 		create(app);
 	}
 
-	odin::Layer* createEntryLayer() final
+	odin::Scene* createEntryScene() final
 	{
 		return new EntryLayer();
 	}

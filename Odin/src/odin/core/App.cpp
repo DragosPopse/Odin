@@ -36,7 +36,7 @@ namespace odin
 		m_window.setEventCallback(
 			[this](const Event& ev)
 			{
-				m_layerManager.dispatchEvent(ev);
+				m_sceneManager.dispatchEvent(ev);
 			});
 		info.window.win32Instance = s_win32Instance;
 		m_window.create(info.window);
@@ -49,9 +49,9 @@ namespace odin
 		m_graphicsContext.create(m_window, info.graphics);
 
 		Renderer::init();
-		std::shared_ptr<Layer> layerPtr(createEntryLayer());
-		m_layerManager.push(std::move(layerPtr));
-		m_layerManager.applyChanges();
+		std::shared_ptr<Scene> layerPtr(createEntryScene());
+		m_sceneManager.push(std::move(layerPtr));
+		m_sceneManager.applyChanges();
 	}
 
 	void App::Run()
@@ -64,21 +64,21 @@ namespace odin
 			m_window.processEvents();
 
 			dt = clock.restart();
-			m_layerManager.update(dt);
+			m_sceneManager.update(dt);
 			while (dt > m_fixedDeltaTime)
 			{
 				dt -= m_fixedDeltaTime;
-				m_layerManager.fixedUpdate(m_fixedDeltaTime);
+				m_sceneManager.fixedUpdate(m_fixedDeltaTime);
 			}
 
 
 			
 			Renderer::clear();
-			m_layerManager.draw();
+			m_sceneManager.draw();
 			m_graphicsContext.swapBuffers();
 
-			m_layerManager.applyChanges();
-			if (m_layerManager.empty())
+			m_sceneManager.applyChanges();
+			if (m_sceneManager.empty())
 			{
 				m_running = false;
 			}
