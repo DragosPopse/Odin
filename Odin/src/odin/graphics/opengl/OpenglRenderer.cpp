@@ -13,6 +13,8 @@ namespace odin
 	{
 		stbi_set_flip_vertically_on_load(true);
 
+		glEnable(GL_DEPTH_TEST);
+
 		float vertices[]{
 			-0.5f, 0.5f, 0.f, 0.f, 1.f,
 			-0.5f, -0.5f, 0.f, 0.f, 0.f,
@@ -59,7 +61,7 @@ namespace odin
 
 	void Renderer::Impl::clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 
