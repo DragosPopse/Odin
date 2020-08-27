@@ -15,7 +15,7 @@ workspace "Odin"
     language "C++"
     cppdialect "C++17"
     architecture "x86_64"
-    staticruntime "on"
+    staticruntime "Off"
     systemversion "latest"
     configurations {
         "Debug", 
@@ -92,7 +92,7 @@ workspace "Odin"
 
         filter "system:windows"
             cppdialect "C++17"
-            staticruntime "On"
+            staticruntime "Off"
             systemversion "latest"
 
             excludes {
@@ -151,7 +151,7 @@ workspace "Odin"
 
         filter "system:windows"
             cppdialect "C++17"
-            staticruntime "On"
+            staticruntime "Off"
             systemversion "latest"
 
         filter {"configurations:Debug"}
