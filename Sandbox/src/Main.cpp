@@ -101,7 +101,7 @@ public:
 
 		gm::Vec4f texTransform(0.f, 0.f, 0.5f, 1.f);
 		m_shader.bind();
-		m_texture.bind(); 
+		m_texture.bind();
 		m_shader.setMat4("u_Transform", transform);
 		m_shader.setVec4("u_TexTransform", texTransform);
 		m_shader.setFloat("u_ElapsedTime", m_elapsedTime.count());
