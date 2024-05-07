@@ -308,6 +308,8 @@ enum BuildFlagKind {
 
 	BuildFlag_MinLinkLibs,
 
+	BuildFlag_Ast,
+
 	// internal use only
 	BuildFlag_InternalIgnoreLazy,
 	BuildFlag_InternalIgnoreLLVMBuild,
@@ -518,6 +520,8 @@ gb_internal bool parse_build_flags(Array<String> args) {
 	add_flag(&build_flags, BuildFlag_WindowsPdbName,          str_lit("pdb-name"),                  BuildFlagParam_String,  Command__does_build);
 	add_flag(&build_flags, BuildFlag_Subsystem,               str_lit("subsystem"),                 BuildFlagParam_String,  Command__does_build);
 #endif
+
+	add_flag(&build_flags, BuildFlag_Ast,                     str_lit("ast"),                       BuildFlagParam_None,  Command__does_check);
 
 
 	GB_ASSERT(args.count >= 3);
@@ -1065,6 +1069,11 @@ gb_internal bool parse_build_flags(Array<String> args) {
 						case BuildFlag_IgnoreUnknownAttributes:
 							build_context.ignore_unknown_attributes = true;
 							break;
+
+						case BuildFlag_Ast:
+							build_context.produce_ast = true;
+							break;
+
 						case BuildFlag_ExtraLinkerFlags:
 							GB_ASSERT(value.kind == ExactValue_String);
 							build_context.extra_linker_flags = value.value_string;
@@ -1800,6 +1809,9 @@ gb_internal void print_show_help(String const arg0, String const &command) {
 		print_usage_line(0, "");
 		print_usage_line(1, "-show-unused-with-location");
 		print_usage_line(2, "Shows unused package declarations within the current project with the declarations source location.");
+		print_usage_line(0, "");
+		print_usage_line(1, "-ast");
+		print_usage_line(2, "Produce a type checked AST. Useful for metaprogramming.");
 		print_usage_line(0, "");
 	}
 
